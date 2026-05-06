@@ -1,0 +1,68 @@
+{
+  "project_name": "Plataforma Digital · Naves Industriales",
+  "description": "De la nube de puntos al reporte financiero — automatización completa con IA, BIM y ecosistema Oracle",
+  "target_market": "Naves +50,000 m²",
+  "stack": {
+    "capture": ["FARO Scanner", "Drone DJI M300 RTK", "Metashape Pro"],
+    "terrain_ia": ["PDAL", "Open3D", "RandLA-Net", "ArcGIS Pro"],
+    "bim": ["Autodesk AEC Collection", "Revit", "Civil 3D", "Navisworks", "Autodesk Forma"],
+    "integration": ["Oracle Integration Cloud (OIC)"],
+    "management": ["Primavera Cloud", "Primavera Unifier", "Oracle EPM Planning", "Oracle Analytics"]
+  },
+  "activities": [
+    {"area":"Captura", "task":"Vuelo de drone y escaneo FARO en campo", "who":"human", "detail":"Requiere presencia física, seguridad en sitio y criterio para reposicionamientos"},
+    {"area":"Captura", "task":"Revisión de calidad de la nube de puntos", "who":"human", "detail":"Validación visual de cobertura, huecos y precisión antes de procesar"},
+    {"area":"Terreno", "task":"Generación de MDT desde nube de puntos", "who":"auto", "detail":"PDAL + Metashape"},
+    {"area":"Terreno", "task":"Clasificación de zonas por pendiente", "who":"auto", "detail":"RandLA-Net IA"},
+    {"area":"Terreno", "task":"Cálculo de cota óptima de plataforma", "who":"auto", "detail":"ArcGIS + SciPy"},
+    {"area":"Terreno", "task":"Interpretación del estudio geotécnico", "who":"human", "detail":"Juicio de ingeniero para definir parámetros de diseño críticos"},
+    {"area":"Mov. tierras", "task":"Cálculo de volúmenes corte y relleno", "who":"auto", "detail":"Civil 3D API"},
+    {"area":"Mov. tierras", "task":"Generación diagrama de masas (Bruckner)", "who":"auto", "detail":"Civil 3D API"},
+    {"area":"Mov. tierras", "task":"Validación normativa taludes NOM/RCDF", "who":"auto", "detail":"LLM normativo"},
+    {"area":"Mov. tierras", "task":"Aprobación solución en zona de cerro", "who":"human", "detail":"Decisión de ingeniería con implicaciones estructurales y de seguridad"},
+    {"area":"Diseño BIM", "task":"Adaptación prototipo a cota de plataforma", "who":"auto", "detail":"Revit + Dynamo"},
+    {"area":"Diseño BIM", "task":"Generación de variantes de layout", "who":"auto", "detail":"Autodesk Forma"},
+    {"area":"Diseño BIM", "task":"Detección de conflictos entre disciplinas", "who":"auto", "detail":"Navisworks"},
+    {"area":"Diseño BIM", "task":"Selección de variante y aprobación de diseño", "who":"human", "detail":"Decisión estratégica que depende de criterios del cliente y operación"},
+    {"area":"Diseño BIM", "task":"Firma de planos ejecutivos (responsiva legal)", "who":"human", "detail":"Obligación legal — requiere firma de Director Responsable de Obra"},
+    {"area":"Presupuesto", "task":"Extracción de cantidades QTO desde BIM", "who":"auto", "detail":"Dynamo + Revit API"},
+    {"area":"Presupuesto", "task":"Asignación de conceptos y precios unitarios", "who":"auto", "detail":"LLM + base CMIC"},
+    {"area":"Presupuesto", "task":"Revisión y ajuste de precios por mercado", "who":"human", "detail":"Los precios CMIC son referencia — el ingeniero ajusta con cotizaciones reales"},
+    {"area":"Presupuesto", "task":"Carga del catálogo a Primavera Unifier", "who":"auto", "detail":"Oracle OIC"},
+    {"area":"Programa", "task":"Generación WBS y asignación de duraciones", "who":"auto", "detail":"OIC → P6 Cloud"},
+    {"area":"Programa", "task":"Cálculo de ruta crítica y holguras", "who":"auto", "detail":"Primavera Cloud"},
+    {"area":"Programa", "task":"Revisión de secuencia constructiva", "who":"human", "detail":"El residente valida que la secuencia sea ejecutable con los frentes disponibles"},
+    {"area":"Financiero", "task":"Cálculo TIR, VPN, payback y flujo mensual", "who":"auto", "detail":"Oracle EPM Planning"},
+    {"area":"Financiero", "task":"Generación escenarios base/optimista/pesimista", "who":"auto", "detail":"Oracle EPM Planning"},
+    {"area":"Financiero", "task":"Validación de supuestos financieros con cliente", "who":"human", "detail":"Tasa de descuento, ocupación y condiciones de financiamiento son decisiones de negocio"},
+    {"area":"Campo", "task":"Registro avance, RFIs y cambios en obra", "who":"auto", "detail":"Unifier app móvil"},
+    {"area":"Campo", "task":"Actualización costos y forecast en EPM", "who":"auto", "detail":"OIC · Unifier · EPM"},
+    {"area":"Campo", "task":"Supervisión de calidad en obra y seguridad", "who":"human", "detail":"Responsabilidad legal y técnica que no puede delegarse a un sistema"},
+    {"area":"Campo", "task":"Autorización de estimaciones y pagos", "who":"human", "detail":"Control financiero — validación de avance real antes de liberar pagos"}
+  ],
+  "capex": [
+    {"cat":"Captura", "tool":"Metashape Pro (licencia anual)", "lo":3500, "hi":3500, "note":"Fotogrametría drone"},
+    {"cat":"IA terreno", "tool":"GPU cloud AWS p3 — setup + 6 meses", "lo":4000, "hi":7000, "note":"RandLA-Net entrenamiento"},
+    {"cat":"BIM", "tool":"Autodesk AEC Collection (1 asiento, 1 año)", "lo":3300, "hi":3300, "note":"Revit + Civil 3D + Navisworks"},
+    {"cat":"BIM", "tool":"Autodesk Forma (add-on, 1 año)", "lo":1200, "hi":2000, "note":"IA generativa layout"},
+    {"cat":"GIS", "tool":"ArcGIS Pro + Spatial Analyst (1 año)", "lo":1500, "hi":2500, "note":"MDT · análisis pendientes"},
+    {"cat":"Oracle OIC", "tool":"OIC créditos adicionales integración", "lo":8000, "hi":15000, "note":"Adapters P6 + Unifier + EPM"},
+    {"cat":"Oracle OIC", "tool":"Consultoría implementación OIC", "lo":12000, "hi":20000, "note":"Mapeo datos + flujos + testing"},
+    {"cat":"Dev", "tool":"Pipeline Python (PDAL, Open3D, SciPy)", "lo":8000, "hi":14000, "note":"Scripts MDT + cota óptima + QTO"},
+    {"cat":"Dev", "tool":"Integraciones Dynamo / Revit API", "lo":4000, "hi":7000, "note":"QTO automático + export planos"}
+  ],
+  "opex_monthly": [
+    {"tool":"Metashape Pro (amortizado mensual)", "lo":290, "hi":290},
+    {"tool":"Autodesk AEC Collection (mensual)", "lo":275, "hi":275},
+    {"tool":"ArcGIS Pro (mensual)", "lo":125, "hi":210},
+    {"tool":"AWS / GCP cómputo IA (mensual)", "lo":200, "hi":600},
+    {"tool":"OIC créditos consumo mensual", "lo":400, "hi":800},
+    {"tool":"Mantenimiento y soporte dev", "lo":500, "hi":1000}
+  ],
+  "roadmap": [
+    {"phase":"Fase 1", "name":"Piloto", "period":"Sem 1–6", "items":["Script Python cota óptima", "ArcGIS + CivilCAD automatizado", "Presupuesto con LLM copiloto", "Validación vs cálculo manual ±5%"]},
+    {"phase":"Fase 2", "name":"Núcleo BIM + Tierras", "period":"Sem 7–18", "items":["RandLA-Net segmentación terreno", "Civil 3D API + motor geotécnico", "Revit/Dynamo QTO automatizado", "Navisworks clash detection"]},
+    {"phase":"Fase 3", "name":"Oracle enterprise", "period":"Sem 19–32", "items":["OIC: flujos BIM → P6 y Unifier", "Oracle EPM Planning financiero", "Unifier app móvil campo", "Oracle Analytics dashboard"]},
+    {"phase":"Fase 4", "name":"Optimización", "period":"Sem 33–40", "items":["Autodesk Forma layout IA", "Reentrenamiento de modelos", "Digital twin (opcional)", "Escalado cartera completa"]}
+  ]
+}

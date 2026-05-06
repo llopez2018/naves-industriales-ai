@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan de Ejecución Interactivo - Naves Industriales</title>
+    <style>
+        :root {
+            --bg-main: #f4f3ef;
+            --card-bg: #ffffff;
+            --text-main: #1a1a1a;
+            --text-muted: #666;
+            --border: #e0ddd6;
+            --python: #3776ab;
+            --bim: #0F6E56;
+            --oracle: #A32D2D;
+            --front: #854F0B;
+            --pm: #534AB7;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        header {
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #1a1830;
+        }
+
+        p.subtitle {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Status Section */
+        .status-panel {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .status-panel h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            grid-column: 1 / -1;
+        }
+
+        .status-box {
+            background: #f8f7f4;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #534AB7;
+        }
+        
+        .status-box.todo { border-left-color: #f59e0b; }
+
+        .status-box h3 { font-size: 14px; margin-bottom: 8px; }
+        .status-box p { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover { background: #f0f0f0; }
+
+        .filter-btn.active[data-role="all"] { background: #1a1a1a; color: white; border-color: #1a1a1a; }
+        .filter-btn.active[data-role="python"] { background: #eef4f9; color: var(--python); border-color: var(--python); }
+        .filter-btn.active[data-role="bim"] { background: #e1f5ee; color: var(--bim); border-color: var(--bim); }
+        .filter-btn.active[data-role="oracle"] { background: #fcebeb; color: var(--oracle); border-color: var(--oracle); }
+        .filter-btn.active[data-role="front"] { background: #faeeda; color: var(--front); border-color: var(--front); }
+        .filter-btn.active[data-role="pm"] { background: #eeedfe; color: var(--pm); border-color: var(--pm); }
+
+        /* Task Grid */
+        .task-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .task-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .task-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .task-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .task-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .badges {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Role Badges */
+        .badge.python { background: #eef4f9; color: var(--python); border: 1px solid var(--python); }
+        .badge.bim { background: #e1f5ee; color: var(--bim); border: 1px solid var(--bim); }
+        .badge.oracle { background: #fcebeb; color: var(--oracle); border: 1px solid var(--oracle); }
+        .badge.front { background: #faeeda; color: var(--front); border: 1px solid var(--front); }
+        .badge.pm { background: #eeedfe; color: var(--pm); border: 1px solid var(--pm); }
+
+        /* Status Badges */
+        .badge.status-done { background: #dcfce7; color: #166534; }
+        .badge.status-prog { background: #fef08a; color: #854d0e; }
+        .badge.status-todo { background: #f1f5f9; color: #475569; }
+        .badge.status-audit { background: #e0e7ff; color: #1d4ed8; }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Plan Interactivo: Plataforma Digital Naves Industriales</h1>
+        <p class="subtitle">Progreso de la Fase 1 (Piloto) y Plan de Hardening (Robustecimiento).</p>
+    </header>
+
+    <div class="status-panel">
+        <h2>📍 Estado Actual del Proyecto (MVP Completado)</h2>
+        <div class="status-box">
+            <h3>Hitos Alcanzados (Fase 1)</h3>
+            <p>
+                ✓ <strong>Algoritmo de Terreno:</strong> Calcula cota óptima procesando nubes de puntos de drones.<br>
+                ✓ <strong>Copiloto Financiero:</strong> Genera presupuesto paramétrico instantáneo.<br>
+                ✓ <strong>BIM 3D (AutoCAD):</strong> Dibuja topografía y nave automáticamente sin timeouts.<br>
+                ✓ <strong>Gemelo Digital (Blender):</strong> Renderiza el terreno texturizado de forma síncrona o asíncrona.<br>
+                ✓ <strong>Agente Normativo:</strong> Evalúa riesgos de taludes contra la NOM/RCDF en tiempo real.
+            </p>
+        </div>
+        <div class="status-box todo">
+            <h3>Siguiente Gran Paso (Hardening)</h3>
+            <p>
+                ⚠️ La plataforma funciona perfectamente en la máquina local (`llopez`), pero necesita ser <strong>escalada y asegurada</strong> para procesar nubes de puntos masivas (300,000+ vértices), mejorar el manejo de sockets TCP y empaquetarse para ser portátil hacia servidores de producción.
+            </p>
+        </div>
+    </div>
+
+    <div class="filters" id="filters">
+        <button class="filter-btn active" data-role="all">Todas las Tareas</button>
+        <button class="filter-btn" data-role="python">Desarrollador Python / IA</button>
+        <button class="filter-btn" data-role="bim">BIM Manager</button>
+        <button class="filter-btn" data-role="front">Frontend Developer</button>
+        <button class="filter-btn" data-role="oracle">Consultor Oracle OIC</button>
+        <button class="filter-btn" data-role="pm">Project Manager</button>
+    </div>
+
+    <div class="task-grid" id="task-grid">
+        
+        <!-- TAREAS NUEVAS DE HARDENING -->
+        <div class="task-card" data-roles="python front">
+            <div class="task-header">
+                <div class="task-title">Hardening: Protocolos TCP y Sockets</div>
+                <div class="badge status-audit">Auditoría</div>
+            </div>
+            <div class="task-desc">Refactorizar `step3_blender.js`. Validar si la conexión mediante `node:net` tiene manejo de reintentos, gestión de buffers para nubes de puntos gigantes y cierre correcto de sockets para evitar procesos zombis en el puerto 9876.</div>
+            <div class="badges">
+                <span class="badge python">Desarrollador Python</span>
+                <span class="badge front">Frontend Dev</span>
+            </div>
+        </div>
+
+        <div class="task-card" data-roles="python pm">
+            <div class="task-header">
+                <div class="task-title">Hardening: Portabilidad y Variables de Entorno</div>
+                <div class="badge status-audit">Auditoría</div>
+            </div>
+            <div class="task-desc">Inspeccionar las rutas absolutas (`C:\Users\llopez\...`) en los scripts de Python y Node. Migrar el sistema a un esquema de variables de entorno (`.env`) para que el proyecto pueda ser desplegado en cualquier servidor o contenedor Docker.</div>
+            <div class="badges">
+                <span class="badge python">Desarrollador Python</span>
+                <span class="badge pm">Project Manager</span>
+            </div>
+        </div>
+
+        <div class="task-card" data-roles="python bim">
+            <div class="task-header">
+                <div class="task-title">Optimización de Motores de Render (AutoCAD/Blender)</div>
+                <div class="badge status-audit">Auditoría</div>
+            </div>
+            <div class="task-desc">En AutoCAD: Evaluar la migración de `3DFace` a `PolyFaceMesh` para soportar terrenos de altísima densidad sin lag. En Blender: Asegurar que el uso de `bmesh` active el motor *Cycles* si se detecta una GPU.</div>
+            <div class="badges">
+                <span class="badge python">Desarrollador Python</span>
+                <span class="badge bim">BIM Manager</span>
+            </div>
+        </div>
+
+        <div class="task-card" data-roles="front oracle">
+            <div class="task-header">
+                <div class="task-title">UX de Ingeniería: Estandarización de Logs</div>
+                <div class="badge status-audit">Auditoría</div>
+            </div>
+            <div class="task-desc">Mejorar el sistema de Logs de la web para que entregue códigos de error estandarizados (EJ-001: Timeout, BIM-500: Fallo de Render, etc.). Esto preparará el terreno para la integración con el monitoreo de Oracle OIC.</div>
+            <div class="badges">
+                <span class="badge front">Frontend Dev</span>
+                <span class="badge oracle">Consultor Oracle OIC</span>
+            </div>
+        </div>
+
+        <!-- TAREAS COMPLETADAS -->
+        <div class="task-card" data-roles="python bim">
+            <div class="task-header">
+                <div class="task-title">Solucionar Timeouts en AutoCAD MCP</div>
+                <div class="badge status-done">Completado</div>
+            </div>
+            <div class="task-desc">Se implementó la API COM nativa (`win32com`) para iterar y borrar memoria matemáticamente, evitando bloqueos de interfaz. Se logró inyectar terrenos 3D complejos en fracciones de segundo.</div>
+            <div class="badges">
+                <span class="badge python">Desarrollador Python</span>
+                <span class="badge bim">BIM Manager</span>
+            </div>
+        </div>
+
+        <div class="task-card" data-roles="python">
+            <div class="task-header">
+                <div class="task-title">Script de Movimiento de Tierras (Cota Óptima)</div>
+                <div class="badge status-done">Completado</div>
+            </div>
+            <div class="task-desc">Se integró `SciPy` para procesar archivos `.xyz` reales de Dron. El algoritmo calcula con precisión matemática la cota Z que iguala volúmenes de corte y relleno, anulando costos de acarreo.</div>
+            <div class="badges">
+                <span class="badge python">Desarrollador Python</span>
+            </div>
+        </div>
+
+        <div class="task-card" data-roles="python front">
+            <div class="task-header">
+                <div class="task-title">Reactivar Gemelo Digital (Blender Worker)</div>
+                <div class="badge status-done">Completado</div>
+            </div>
+            <div class="task-desc">Se resolvió la inestabilidad de red del Addon MCP migrando a inyección directa de archivos (`subprocess` / `detached`) y sockets TCP crudos (`node:net`), garantizando el renderizado del Gemelo Digital.</div>
+            <div class="badges">
+                <span class="badge python">Desarrollador Python</span>
+                <span class="badge front">Frontend Dev</span>
+            </div>
+        </div>
+
+        <div class="task-card" data-roles="python">
+            <div class="task-header">
+                <div class="task-title">Agente LLM Normativo y Presupuestos</div>
+                <div class="badge status-done">Completado</div>
+            </div>
+            <div class="task-desc">Se integraron los motores de decisión en Python. El sistema ahora evalúa costos paramétricos (>$200M MXN) y emite dictámenes de seguridad estructural basados en reglamentos de construcción (RCDF).</div>
+            <div class="badges">
+                <span class="badge python">Desarrollador Python</span>
+            </div>
+        </div>
+
+        <div class="task-card" data-roles="front">
+            <div class="task-header">
+                <div class="task-title">Integrar Interfaz de Control (Next.js)</div>
+                <div class="badge status-done">Completado</div>
+            </div>
+            <div class="task-desc">Frontend Full-Stack finalizado. Incluye dashboard de presupuesto, panel de alertas normativas e inyección en tiempo real a los motores de renderizado.</div>
+            <div class="badges">
+                <span class="badge front">Frontend Dev</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const taskCards = document.querySelectorAll('.task-card');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const role = btn.getAttribute('data-role');
+
+            taskCards.forEach(card => {
+                const cardRoles = card.getAttribute('data-roles').split(' ');
+                if (role === 'all' || cardRoles.includes(role)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
