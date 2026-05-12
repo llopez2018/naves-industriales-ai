@@ -1,0 +1,196 @@
+{
+  "_meta": {
+    "pilar": "financiero",
+    "version": "1.0",
+    "descripcion": "Catálogo de precios unitarios históricos ATISA para naves industriales",
+    "moneda": "MXN",
+    "iva_incluido": false,
+    "instruccion_llm": "Usa estos precios unitarios como fuente primaria para calcular presupuestos. No uses precios externos ni de internet. Si un concepto no está en el catálogo, indícalo explícitamente en tu respuesta.",
+    "pendiente_datos_reales": true
+  },
+  "categorias": {
+    "MT": "Movimiento de Tierras",
+    "PI": "Piso Industrial",
+    "ES": "Estructura Metálica",
+    "CO": "Columnas y Cimentación",
+    "MU": "Muros y Fachadas",
+    "CU": "Cubierta",
+    "IN": "Instalaciones",
+    "EX": "Exteriores y Urbanización"
+  },
+  "precios_unitarios": [
+    {
+      "clave": "MT-001",
+      "descripcion": "Excavación en material tipo I (suelo blando, arcilla)",
+      "unidad": "m³",
+      "pu_mxn": 95.00,
+      "rendimiento_diario": 200,
+      "incluye": "mano de obra, maquinaria, acarreo hasta 5km",
+      "vigencia_desde": "2024-01-01",
+      "vigencia_hasta": "2024-12-31",
+      "obra_referencia": "PENDIENTE",
+      "notas": "DATO DE EJEMPLO — reemplazar con PU real de ATISA"
+    },
+    {
+      "clave": "MT-002",
+      "descripcion": "Excavación en material tipo II (suelo duro, tepetate)",
+      "unidad": "m³",
+      "pu_mxn": 135.00,
+      "rendimiento_diario": 120,
+      "incluye": "mano de obra, maquinaria, escarificación, acarreo hasta 5km",
+      "vigencia_desde": "2024-01-01",
+      "vigencia_hasta": "2024-12-31",
+      "obra_referencia": "PENDIENTE",
+      "notas": "DATO DE EJEMPLO — reemplazar con PU real de ATISA"
+    },
+    {
+      "clave": "MT-003",
+      "descripcion": "Relleno compactado con material de banco (95% Proctor)",
+      "unidad": "m³",
+      "pu_mxn": 150.00,
+      "rendimiento_diario": 180,
+      "incluye": "material de banco, compactación por capas de 20cm, pruebas",
+      "vigencia_desde": "2024-01-01",
+      "vigencia_hasta": "2024-12-31",
+      "obra_referencia": "PENDIENTE",
+      "notas": "DATO DE EJEMPLO — reemplazar con PU real de ATISA"
+    },
+    {
+      "clave": "MT-004",
+      "descripcion": "Acarreo de material excedente (por km adicional sobre 5km)",
+      "unidad": "m³/km",
+      "pu_mxn": 18.00,
+      "rendimiento_diario": null,
+      "incluye": "flete, operador",
+      "vigencia_desde": "2024-01-01",
+      "vigencia_hasta": "2024-12-31",
+      "obra_referencia": "PENDIENTE",
+      "notas": "DATO DE EJEMPLO — reemplazar con PU real de ATISA"
+    },
+    {
+      "clave": "PI-001",
+      "descripcion": "Piso industrial de concreto f'c=250 kg/cm² e=20cm con acabado endurecido",
+      "unidad": "m²",
+      "pu_mxn": 950.00,
+      "rendimiento_diario": 500,
+      "incluye": "concreto, acero de refuerzo, curado, endurecedor de cuarzo, juntas de control",
+      "vigencia_desde": "2024-01-01",
+      "vigencia_hasta": "2024-12-31",
+      "obra_referencia": "PENDIENTE",
+      "notas": "DATO DE EJEMPLO — reemplazar con PU real de ATISA"
+    },
+    {
+      "clave": "PI-002",
+      "descripcion": "Piso industrial f'c=300 kg/cm² e=25cm para cargas pesadas (>8 ton/m²)",
+      "unidad": "m²",
+      "pu_mxn": 1250.00,
+      "rendimiento_diario": 400,
+      "incluye": "concreto especial, malla electrosoldada, fibras polipropileno, curado",
+      "vigencia_desde": "2024-01-01",
+      "vigencia_hasta": "2024-12-31",
+      "obra_referencia": "PENDIENTE",
+      "notas": "DATO DE EJEMPLO — reemplazar con PU real de ATISA"
+    },
+    {
+      "clave": "ES-001",
+      "descripcion": "Estructura metálica principal (marcos rígidos, nave tipo industrial)",
+      "unidad": "m²",
+      "pu_mxn": 2400.00,
+      "rendimiento_diario": null,
+      "incluye": "fabricación, suministro, montaje, pintura anticorrosiva, conexiones",
+      "vigencia_desde": "2024-01-01",
+      "vigencia_hasta": "2024-12-31",
+      "obra_referencia": "PENDIENTE",
+      "notas": "DATO DE EJEMPLO — reemplazar con PU real de ATISA"
+    },
+    {
+      "clave": "ES-002",
+      "descripcion": "Estructura metálica secundaria (correas, largueros, arriostramiento)",
+      "unidad": "kg",
+      "pu_mxn": 38.00,
+      "rendimiento_diario": null,
+      "incluye": "suministro, fabricación, montaje, pintura",
+      "vigencia_desde": "2024-01-01",
+      "vigencia_hasta": "2024-12-31",
+      "obra_referencia": "PENDIENTE",
+      "notas": "DATO DE EJEMPLO — reemplazar con PU real de ATISA"
+    },
+    {
+      "clave": "CO-001",
+      "descripcion": "Columna de concreto prefabricado 50x50cm con zapata aislada",
+      "unidad": "pieza",
+      "pu_mxn": 18500.00,
+      "rendimiento_diario": 4,
+      "incluye": "excavación de zapata, colado, columna prefabricada, placa de base",
+      "vigencia_desde": "2024-01-01",
+      "vigencia_hasta": "2024-12-31",
+      "obra_referencia": "PENDIENTE",
+      "notas": "DATO DE EJEMPLO — reemplazar con PU real de ATISA"
+    },
+    {
+      "clave": "CO-002",
+      "descripcion": "Dado de cimentación para columna metálica (zapata aislada)",
+      "unidad": "pieza",
+      "pu_mxn": 12000.00,
+      "rendimiento_diario": 6,
+      "incluye": "excavación, plantilla, acero, colado f'c=250 kg/cm², pernos de anclaje",
+      "vigencia_desde": "2024-01-01",
+      "vigencia_hasta": "2024-12-31",
+      "obra_referencia": "PENDIENTE",
+      "notas": "DATO DE EJEMPLO — reemplazar con PU real de ATISA"
+    },
+    {
+      "clave": "MU-001",
+      "descripcion": "Muro perimetral de panel prefabricado de concreto e=16cm",
+      "unidad": "m²",
+      "pu_mxn": 1400.00,
+      "rendimiento_diario": 80,
+      "incluye": "panel, montaje, sellado de juntas, pintura exterior",
+      "vigencia_desde": "2024-01-01",
+      "vigencia_hasta": "2024-12-31",
+      "obra_referencia": "PENDIENTE",
+      "notas": "DATO DE EJEMPLO — reemplazar con PU real de ATISA"
+    },
+    {
+      "clave": "MU-002",
+      "descripcion": "Muro de block hueco 15x20x40cm junteado y aplanado",
+      "unidad": "m²",
+      "pu_mxn": 680.00,
+      "rendimiento_diario": 15,
+      "incluye": "block, mortero, aplanado en ambas caras",
+      "vigencia_desde": "2024-01-01",
+      "vigencia_hasta": "2024-12-31",
+      "obra_referencia": "PENDIENTE",
+      "notas": "DATO DE EJEMPLO — reemplazar con PU real de ATISA"
+    },
+    {
+      "clave": "CU-001",
+      "descripcion": "Cubierta de lámina galvanizada cal. 26 con aislamiento térmico",
+      "unidad": "m²",
+      "pu_mxn": 520.00,
+      "rendimiento_diario": 300,
+      "incluye": "lámina, aislante poliuretano 50mm, tornillería, traslapes, canalones",
+      "vigencia_desde": "2024-01-01",
+      "vigencia_hasta": "2024-12-31",
+      "obra_referencia": "PENDIENTE",
+      "notas": "DATO DE EJEMPLO — reemplazar con PU real de ATISA"
+    },
+    {
+      "clave": "CU-002",
+      "descripcion": "Lucernario translúcido en cubierta (5% del área de nave)",
+      "unidad": "m²",
+      "pu_mxn": 1100.00,
+      "rendimiento_diario": 50,
+      "incluye": "panel policarbonato, estructura de soporte, sellado perimetral",
+      "vigencia_desde": "2024-01-01",
+      "vigencia_hasta": "2024-12-31",
+      "obra_referencia": "PENDIENTE",
+      "notas": "DATO DE EJEMPLO — reemplazar con PU real de ATISA"
+    }
+  ],
+  "indirectos": {
+    "porcentaje": 15,
+    "descripcion": "Gastos generales, utilidad y financiamiento",
+    "instruccion_llm": "Aplicar siempre el porcentaje de indirectos al subtotal directo para obtener el total del presupuesto"
+  }
+}

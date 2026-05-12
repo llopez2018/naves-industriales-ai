@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manual — Cómo subir documentos al repositorio</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #f0ede8;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: #0f1623;
+      color: white;
+      padding: 48px 40px;
+      text-align: center;
+    }
+    .header .badge {
+      display: inline-block;
+      background: #1e3a5f;
+      color: #7c8fa6;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .header h1 {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    .header p {
+      font-size: 15px;
+      color: #94a3b8;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    /* ── INTRO BOX ── */
+    .intro-box {
+      background: white;
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-bottom: 32px;
+      border-left: 5px solid #534AB7;
+    }
+    .intro-box h2 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #0f1623;
+    }
+    .intro-box p {
+      font-size: 14px;
+      color: #444;
+      line-height: 1.75;
+    }
+
+    /* ── ALERT ── */
+    .alert {
+      background: #fff7ed;
+      border-left: 4px solid #ea580c;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin-bottom: 32px;
+    }
+    .alert .alert-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #ea580c;
+      margin-bottom: 6px;
+    }
+    .alert p {
+      font-size: 13px;
+      color: #7c2d12;
+      line-height: 1.6;
+    }
+
+    /* ── SECTION TITLE ── */
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    /* ── PHASE HEADER ── */
+    .phase {
+      margin-bottom: 32px;
+    }
+    .phase-header {
+      background: #0f1623;
+      border-radius: 10px 10px 0 0;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .phase-number {
+      background: #534AB7;
+      color: white;
+      font-size: 13px;
+      font-weight: 800;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .phase-header-text h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 2px;
+    }
+    .phase-header-text p {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+    .phase-body {
+      background: white;
+      border-radius: 0 0 10px 10px;
+      border: 1px solid #e2ddd6;
+      border-top: none;
+      padding: 24px;
+    }
+
+    /* ── STEP ── */
+    .step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .step:last-child { margin-bottom: 0; }
+    .step-num {
+      background: #eef2ff;
+      color: #534AB7;
+      font-size: 12px;
+      font-weight: 800;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-content { flex: 1; }
+    .step-content h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f1623;
+      margin-bottom: 6px;
+    }
+    .step-content p {
+      font-size: 13px;
+      color: #444;
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+    .step-content p:last-child { margin-bottom: 0; }
+
+    /* ── LINK BUTTON ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #534AB7;
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-top: 8px;
+    }
+    .btn:hover { background: #3d36a0; }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid #534AB7;
+      color: #534AB7;
+    }
+    .btn-outline:hover { background: #eef2ff; }
+
+    /* ── CODE BLOCK ── */
+    .code-block {
+      background: #1e293b;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 13px;
+      color: #7dd3fc;
+      margin: 10px 0;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* ── FOLDER MAP ── */
+    .folder-map {
+      background: #f8f7f3;
+      border: 1px solid #e2ddd6;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 10px 0;
+    }
+    .folder-map .folder-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 13px;
+    }
+    .folder-map .folder-item:last-child { border-bottom: none; }
+    .folder-icon { font-size: 18px; flex-shrink: 0; }
+    .folder-name { font-weight: 700; color: #1e3a5f; }
+    .folder-desc { color: #555; font-size: 12px; margin-top: 2px; }
+
+    /* ── TIP BOX ── */
+    .tip {
+      background: #dcfce7;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 12px 0;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .tip-icon { font-size: 18px; flex-shrink: 0; }
+    .tip p { font-size: 13px; color: #166534; line-height: 1.6; }
+    .tip strong { color: #14532d; }
+
+    .warn {
+      background: #fef9c3;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 12px 0;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .warn p { font-size: 13px; color: #713f12; line-height: 1.6; }
+
+    /* ── SCREENSHOT MOCK ── */
+    .screen-mock {
+      border: 2px solid #e2ddd6;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 14px 0;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    .screen-titlebar {
+      background: #e8e6e1;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-r { background: #fe5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+    .screen-titlebar span {
+      font-size: 12px;
+      color: #666;
+      margin-left: 8px;
+      font-weight: 500;
+    }
+    .screen-body {
+      background: #fff;
+      padding: 20px;
+      font-size: 13px;
+      color: #333;
+    }
+
+    /* ── HIGHLIGHT ── */
+    .hl { background: #fef08a; padding: 1px 4px; border-radius: 3px; font-weight: 600; }
+    code {
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: 'Courier New', monospace;
+      color: #334155;
+    }
+
+    /* ── CHECKLIST ── */
+    .checklist { list-style: none; margin: 12px 0; }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: #333;
+      padding: 6px 0;
+      border-bottom: 1px solid #f0f0f0;
+      line-height: 1.5;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .check-box {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── DIVIDER ── */
+    .divider { height: 1px; background: #ddd; margin: 32px 0; }
+
+    /* ── TABLE ── */
+    .table-wrap { overflow-x: auto; margin: 12px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th {
+      background: #0f1623;
+      color: #94a3b8;
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    td { padding: 10px 14px; border-bottom: 1px solid #eee; color: #333; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: #fafaf8; }
+
+    /* ── FAQ ── */
+    .faq-item {
+      background: white;
+      border: 1px solid #e2ddd6;
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin-bottom: 12px;
+    }
+    .faq-item h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e3a5f;
+      margin-bottom: 8px;
+    }
+    .faq-item p {
+      font-size: 13px;
+      color: #444;
+      line-height: 1.7;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: #0f1623;
+      color: #475569;
+      text-align: center;
+      padding: 28px 20px;
+      font-size: 12px;
+      margin-top: 48px;
+    }
+    .footer strong { color: #94a3b8; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .header { padding: 32px 20px; }
+      .header h1 { font-size: 24px; }
+      .phase-header { padding: 12px 16px; }
+      .phase-body { padding: 16px; }
+      .step { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ HEADER ══ -->
+  <div class="header">
+    <div class="badge">ATISA · Plataforma Digital de Naves Industriales</div>
+    <h1>Cómo subir documentos<br>al repositorio</h1>
+    <p>Guía paso a paso para entregar los insumos del Golden Dataset. No necesitas experiencia técnica para seguir este manual.</p>
+  </div>
+
+  <div class="container">
+
+    <!-- ══ INTRO ══ -->
+    <div class="intro-box">
+      <h2>¿Para qué sirve este repositorio?</h2>
+      <p>
+        La plataforma de IA necesita aprender de los proyectos reales de ATISA para generar presupuestos precisos.
+        Este repositorio es la <strong>carpeta compartida oficial</strong> donde cada área entrega sus documentos
+        (precios unitarios, estudios de suelos, criterios BIM y un presupuesto validado de obra real).
+        Una vez que los documentos estén aquí, el equipo técnico los convierte al formato que entiende el modelo de IA.
+      </p>
+    </div>
+
+    <div class="alert">
+      <div class="alert-title">⏱ Fecha límite — Semana 1 de Mayo 2026</div>
+      <p>Todo el plan depende de recibir los 4 pilares esta semana. Cada día de retraso en la entrega recorre el calendario completo. Si tienes dudas sobre qué subir, revisa la sección de carpetas o contacta al equipo de desarrollo antes de la fecha.</p>
+    </div>
+
+    <!-- ══ FASE 1 ══ -->
+    <p class="section-title">Paso 1 de 4 — Preparar tu equipo (solo la primera vez)</p>
+
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-number">1</div>
+        <div class="phase-header-text">
+          <h3>Instalar GitHub Desktop</h3>
+          <p>El programa que te permite subir archivos a GitHub sin usar comandos</p>
+        </div>
+      </div>
+      <div class="phase-body">
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Descarga GitHub Desktop</h4>
+            <p>
+              GitHub Desktop es un programa gratuito que hace todo el proceso visual, con botones y carpetas, sin necesidad de escribir comandos. Es el método más sencillo para colaborar en repositorios.
+            </p>
+            <a class="btn" href="https://desktop.github.com/" target="_blank">
+              ⬇ Descargar GitHub Desktop
+            </a>
+            <div class="tip" style="margin-top:12px;">
+              <span class="tip-icon">💡</span>
+              <p>El sitio detecta automáticamente si tu equipo es Windows o Mac y te ofrece la versión correcta.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Instala el programa</h4>
+            <p>
+              Abre el archivo que descargaste (<code>GitHubDesktopSetup.exe</code> en Windows o <code>GitHubDesktop.zip</code> en Mac) y sigue las instrucciones. La instalación es igual que cualquier otro programa.
+            </p>
+            <div class="screen-mock">
+              <div class="screen-titlebar">
+                <div class="dot dot-r"></div>
+                <div class="dot dot-y"></div>
+                <div class="dot dot-g"></div>
+                <span>GitHub Desktop — Instalador</span>
+              </div>
+              <div class="screen-body">
+                <div style="text-align:center;padding:20px 0;">
+                  <div style="font-size:40px;margin-bottom:12px;">🖥️</div>
+                  <div style="font-size:14px;font-weight:700;margin-bottom:6px;color:#0f1623;">Instalando GitHub Desktop...</div>
+                  <div style="background:#e2e8f0;border-radius:8px;height:8px;width:260px;margin:0 auto 10px;">
+                    <div style="background:#534AB7;border-radius:8px;height:8px;width:75%;"></div>
+                  </div>
+                  <div style="font-size:12px;color:#888;">Esto tarda menos de un minuto.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Inicia sesión con tu cuenta de GitHub</h4>
+            <p>
+              Al abrir GitHub Desktop por primera vez te pedirá que inicies sesión. Haz clic en <span class="hl">Sign in to GitHub.com</span> e ingresa el correo y contraseña de tu cuenta de GitHub.
+            </p>
+            <div class="warn">
+              <span style="font-size:18px;flex-shrink:0;">⚠️</span>
+              <p>Si no tienes cuenta de GitHub, crea una gratuita en <strong>github.com</strong> con tu correo de ATISA. Luego notifica al equipo de desarrollo tu nombre de usuario para que te den acceso al repositorio.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ FASE 2 ══ -->
+    <p class="section-title">Paso 2 de 4 — Descargar el repositorio a tu equipo</p>
+
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-number">2</div>
+        <div class="phase-header-text">
+          <h3>Clonar el repositorio</h3>
+          <p>"Clonar" = descargar una copia local del repositorio en tu computadora</p>
+        </div>
+      </div>
+      <div class="phase-body">
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Abre GitHub Desktop y haz clic en "Clone a repository"</h4>
+            <p>En la pantalla de inicio de GitHub Desktop verás la opción <span class="hl">Clone a repository from the Internet</span>. Haz clic ahí.</p>
+            <div class="screen-mock">
+              <div class="screen-titlebar">
+                <div class="dot dot-r"></div>
+                <div class="dot dot-y"></div>
+                <div class="dot dot-g"></div>
+                <span>GitHub Desktop</span>
+              </div>
+              <div class="screen-body">
+                <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;">
+                  <div style="flex:1;min-width:200px;">
+                    <div style="font-size:13px;font-weight:700;color:#0f1623;margin-bottom:8px;">Let's get started!</div>
+                    <div style="background:#eef2ff;border:2px solid #534AB7;border-radius:8px;padding:12px 14px;cursor:pointer;margin-bottom:8px;">
+                      <div style="font-size:13px;font-weight:700;color:#534AB7;">⬇ Clone a repository from the Internet</div>
+                      <div style="font-size:11px;color:#666;margin-top:3px;">Descarga un repositorio que ya existe en GitHub</div>
+                    </div>
+                    <div style="background:#f8f7f3;border:1px solid #ddd;border-radius:8px;padding:12px 14px;margin-bottom:8px;">
+                      <div style="font-size:13px;color:#555;">➕ Create a new repository</div>
+                    </div>
+                    <div style="background:#f8f7f3;border:1px solid #ddd;border-radius:8px;padding:12px 14px;">
+                      <div style="font-size:13px;color:#555;">📂 Add an existing repository</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Busca el repositorio "atisa-golden-dataset"</h4>
+            <p>En la pestaña <span class="hl">GitHub.com</span> del panel de clonación, escribe en el buscador:</p>
+            <div class="code-block">atisa-golden-dataset</div>
+            <p>Selecciónalo de la lista y haz clic en <span class="hl">Clone</span>.</p>
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <p><strong>¿No aparece el repositorio?</strong> Significa que el equipo de desarrollo todavía no te ha dado acceso. Envíales tu nombre de usuario de GitHub para que te agreguen como colaborador.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Elige dónde guardar la carpeta en tu equipo</h4>
+            <p>
+              GitHub Desktop te preguntará en qué carpeta de tu computadora quieres guardar el repositorio. Puedes dejarlo en la ubicación que sugiere (<code>Documentos/GitHub/atisa-golden-dataset</code>) o elegir otra. Haz clic en <span class="hl">Clone</span> para confirmar.
+            </p>
+            <div class="tip">
+              <span class="tip-icon">✅</span>
+              <p>Cuando termine de clonar, verás una carpeta llamada <strong>atisa-golden-dataset</strong> en tu equipo con las 4 subcarpetas del proyecto adentro.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ FASE 3 ══ -->
+    <p class="section-title">Paso 3 de 4 — Copiar tus documentos a la carpeta correcta</p>
+
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-number">3</div>
+        <div class="phase-header-text">
+          <h3>Agregar tus documentos</h3>
+          <p>Copia tus archivos a la subcarpeta que corresponde a tu área</p>
+        </div>
+      </div>
+      <div class="phase-body">
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>¿En qué carpeta va mi documento?</h4>
+            <p>Dentro de la carpeta <code>atisa-golden-dataset</code> encontrarás estas 4 subcarpetas:</p>
+            <div class="folder-map">
+              <div class="folder-item">
+                <span class="folder-icon">📁</span>
+                <div>
+                  <div class="folder-name">financiero/</div>
+                  <div class="folder-desc">Catálogo de precios unitarios históricos · Excel, PDF, CSV</div>
+                </div>
+              </div>
+              <div class="folder-item">
+                <span class="folder-icon">📁</span>
+                <div>
+                  <div class="folder-name">tecnico/</div>
+                  <div class="folder-desc">Estudios de mecánica de suelos y reportes de volúmenes · PDF, Excel</div>
+                </div>
+              </div>
+              <div class="folder-item">
+                <span class="folder-icon">📁</span>
+                <div>
+                  <div class="folder-name">bim/</div>
+                  <div class="folder-desc">Criterios de diseño y nomenclatura de familias Revit · PDF, Excel</div>
+                </div>
+              </div>
+              <div class="folder-item">
+                <span class="folder-icon">📁</span>
+                <div>
+                  <div class="folder-name">ground_truth/</div>
+                  <div class="folder-desc">Presupuesto final validado de obra real · Excel, PDF</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Nombra tus archivos con este formato</h4>
+            <p>Para que el sistema los procese automáticamente, usa este formato al nombrar cada archivo antes de copiarlo:</p>
+            <div class="code-block">{carpeta}_{descripcion-corta}_{AÑO-MES}.{extension}</div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Ejemplo correcto</th>
+                    <th>Carpeta destino</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>financiero_precios-unitarios_2025-01.xlsx</code></td>
+                    <td><code>financiero/</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>tecnico_ems-monterrey_2024-06.pdf</code></td>
+                    <td><code>tecnico/</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>bim_criterios-diseno-nave_2025-03.pdf</code></td>
+                    <td><code>bim/</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>ground_truth_presupuesto-50000m2_2024-11.xlsx</code></td>
+                    <td><code>ground_truth/</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="warn" style="margin-top:10px;">
+              <span style="font-size:18px;flex-shrink:0;">⚠️</span>
+              <p>No uses espacios, acentos ni caracteres especiales (ñ, /, &) en el nombre del archivo. Usa únicamente letras, números y guiones.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Copia el archivo a la carpeta correspondiente</h4>
+            <p>
+              Abre el Explorador de archivos (Windows) o el Finder (Mac), navega hasta la carpeta
+              <code>atisa-golden-dataset</code> y arrastra tus archivos a la subcarpeta correcta,
+              exactamente igual que copias cualquier archivo en tu computadora.
+            </p>
+            <div class="tip">
+              <span class="tip-icon">✅</span>
+              <p>Una vez que copies el archivo, GitHub Desktop lo detectará automáticamente y lo mostrará en su pantalla principal como un cambio pendiente de subir.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ FASE 4 ══ -->
+    <p class="section-title">Paso 4 de 4 — Guardar y subir los cambios</p>
+
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-number">4</div>
+        <div class="phase-header-text">
+          <h3>Hacer el Commit y el Push</h3>
+          <p>"Commit" = guardar los cambios · "Push" = subirlos al repositorio compartido</p>
+        </div>
+      </div>
+      <div class="phase-body">
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Abre GitHub Desktop</h4>
+            <p>
+              Verás en el panel izquierdo todos los archivos que acabas de copiar, marcados con un ícono verde
+              <span style="color:#166534;font-weight:700;">+</span> (archivos nuevos).
+              Si modificaste uno existente, aparecerá con un punto amarillo.
+            </p>
+            <div class="screen-mock">
+              <div class="screen-titlebar">
+                <div class="dot dot-r"></div>
+                <div class="dot dot-y"></div>
+                <div class="dot dot-g"></div>
+                <span>GitHub Desktop — atisa-golden-dataset</span>
+              </div>
+              <div class="screen-body">
+                <div style="display:flex;gap:0;min-height:140px;">
+                  <div style="width:220px;border-right:1px solid #eee;padding:12px;font-size:12px;">
+                    <div style="font-weight:700;color:#666;margin-bottom:10px;font-size:11px;text-transform:uppercase;letter-spacing:1px;">Changes</div>
+                    <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:#f0fdf4;border-radius:5px;margin-bottom:4px;">
+                      <span style="color:#166534;font-weight:900;font-size:14px;">+</span>
+                      <span style="color:#333;">financiero/precios-uni...</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:#f0fdf4;border-radius:5px;">
+                      <span style="color:#166534;font-weight:900;font-size:14px;">+</span>
+                      <span style="color:#333;">tecnico/ems-monterr...</span>
+                    </div>
+                  </div>
+                  <div style="flex:1;padding:12px;">
+                    <div style="font-size:11px;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Summary (required)</div>
+                    <div style="border:1px solid #ccc;border-radius:6px;padding:8px 10px;font-size:12px;color:#333;margin-bottom:8px;">Entrega pilar financiero y técnico — Sem. 1</div>
+                    <div style="border:1px solid #ccc;border-radius:6px;padding:8px 10px;font-size:12px;color:#aaa;margin-bottom:12px;min-height:50px;">Description (optional)...</div>
+                    <div style="background:#534AB7;color:white;text-align:center;border-radius:7px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;">
+                      Commit to main
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Escribe un mensaje que describa lo que subes</h4>
+            <p>
+              En la parte inferior izquierda del programa hay un campo llamado <span class="hl">Summary</span>.
+              Escribe una frase corta que explique qué estás subiendo. Esto queda registrado para que todos sepan quién subió qué y cuándo.
+            </p>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Área</th><th>Ejemplo de mensaje</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Presupuestos</td><td>Agrego catálogo de precios unitarios 2025</td></tr>
+                  <tr><td>Ingeniería Civil</td><td>Subo 3 estudios de mecánica de suelos</td></tr>
+                  <tr><td>BIM</td><td>Agrego manual de criterios de diseño nave tipo</td></tr>
+                  <tr><td>Dirección Proyectos</td><td>Entrego presupuesto validado nave 50000m2</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Haz clic en "Commit to main"</h4>
+            <p>
+              Este botón <span class="hl">guarda</span> los cambios en tu copia local del repositorio.
+              Piénsalo como hacer clic en "Guardar" en Word, pero con un registro histórico que nunca se borra.
+            </p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>Haz clic en "Push origin" para subir al servidor</h4>
+            <p>
+              Después del commit, aparecerá un botón azul en la parte superior que dice <span class="hl">Push origin</span>
+              con un número que indica cuántos cambios están pendientes de subir.
+              Haz clic en ese botón para que los documentos queden disponibles para todo el equipo.
+            </p>
+            <div class="screen-mock">
+              <div class="screen-titlebar">
+                <div class="dot dot-r"></div>
+                <div class="dot dot-y"></div>
+                <div class="dot dot-g"></div>
+                <span>GitHub Desktop</span>
+              </div>
+              <div class="screen-body" style="text-align:center;padding:24px;">
+                <div style="background:#534AB7;color:white;display:inline-flex;align-items:center;gap:10px;padding:10px 24px;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;">
+                  <span>⬆</span>
+                  <span>Push origin</span>
+                  <span style="background:rgba(255,255,255,0.25);border-radius:10px;padding:2px 8px;font-size:12px;">2</span>
+                </div>
+                <p style="color:#888;font-size:12px;margin-top:12px;">Subir 2 archivos al repositorio compartido</p>
+              </div>
+            </div>
+            <div class="tip" style="margin-top:12px;">
+              <span class="tip-icon">✅</span>
+              <p><strong>¡Listo!</strong> Tus documentos ya están en el repositorio y el equipo de desarrollo puede verlos y procesarlos.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══ CHECKLIST FINAL ══ -->
+    <p class="section-title">Checklist antes de terminar</p>
+    <div style="background:white;border-radius:12px;padding:24px;margin-bottom:32px;border:1px solid #e2ddd6;">
+      <p style="font-size:14px;color:#444;margin-bottom:16px;line-height:1.7;">Antes de dar por entregado tu pilar, revisa que hayas completado lo siguiente:</p>
+      <ul class="checklist">
+        <li><div class="check-box"></div> Instalé GitHub Desktop e inicié sesión con mi cuenta</li>
+        <li><div class="check-box"></div> Cloné el repositorio <strong>atisa-golden-dataset</strong> en mi equipo</li>
+        <li><div class="check-box"></div> Nombré mis archivos siguiendo el formato: <code>pilar_descripcion_AAAA-MM.ext</code></li>
+        <li><div class="check-box"></div> Copié mis archivos a la subcarpeta correcta (financiero / tecnico / bim / ground_truth)</li>
+        <li><div class="check-box"></div> Escribí un mensaje descriptivo en el campo Summary antes del commit</li>
+        <li><div class="check-box"></div> Hice clic en <strong>Commit to main</strong></li>
+        <li><div class="check-box"></div> Hice clic en <strong>Push origin</strong> para subir al servidor</li>
+        <li><div class="check-box"></div> Verifiqué en github.com que mis archivos aparecen en el repositorio</li>
+      </ul>
+    </div>
+
+    <!-- ══ FAQ ══ -->
+    <p class="section-title">Preguntas frecuentes</p>
+
+    <div class="faq-item">
+      <h4>❓ No encuentro el repositorio al buscar en GitHub Desktop</h4>
+      <p>Significa que el equipo de desarrollo todavía no te ha dado acceso. Envía tu nombre de usuario de GitHub al equipo de desarrollo y te agregarán como colaborador. Una vez que te confirmen el acceso, vuelve a buscar el repositorio.</p>
+    </div>
+
+    <div class="faq-item">
+      <h4>❓ Subí un archivo incorrecto o con el nombre equivocado, ¿qué hago?</h4>
+      <p>No hay problema. Simplemente borra el archivo de la carpeta en tu computadora, renómbralo correctamente, vuelve a copiarlo a la carpeta y haz un nuevo commit + push. El historial de GitHub guarda todos los cambios, nunca se pierde nada.</p>
+    </div>
+
+    <div class="faq-item">
+      <h4>❓ GitHub Desktop me pide hacer "Fetch" o "Pull" antes de subir, ¿qué hago?</h4>
+      <p>Eso significa que alguien más subió archivos mientras tú trabajabas. Haz clic en el botón <strong>Fetch origin</strong> primero (descarga los cambios del servidor), y luego aparecerá el botón <strong>Push origin</strong> para que puedas subir los tuyos. Nunca se perderán tus archivos en este proceso.</p>
+    </div>
+
+    <div class="faq-item">
+      <h4>❓ ¿Puedo subir varios archivos al mismo tiempo?</h4>
+      <p>Sí. Copia todos los archivos a sus respectivas carpetas y GitHub Desktop los mostrará todos en la lista de cambios. Escribe un mensaje general que los describa a todos (<em>"Entrego pilares financiero y técnico completos"</em>) y haz un solo commit + push para todos juntos.</p>
+    </div>
+
+    <div class="faq-item">
+      <h4>❓ ¿Puedo subir archivos directamente desde el navegador sin instalar nada?</h4>
+      <p>Sí, pero solo si vas a subir archivos sueltos. Entra a <strong>github.com/LDominguezIA/atisa-golden-dataset</strong>, navega a la carpeta correcta, y haz clic en el botón <strong>Add file → Upload files</strong>. Arrastra tus archivos y haz clic en <strong>Commit changes</strong> al final de la página.</p>
+    </div>
+
+    <div class="faq-item">
+      <h4>❓ ¿El repositorio es seguro? ¿Quién puede ver mis documentos?</h4>
+      <p>El repositorio es <strong>privado</strong>. Solo las personas que el equipo de desarrollo ha invitado explícitamente pueden ver o descargar los documentos. Nadie fuera del proyecto tiene acceso.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══ CONTACTO ══ -->
+    <div style="background:white;border-radius:12px;padding:28px 32px;text-align:center;border:1px solid #e2ddd6;">
+      <div style="font-size:32px;margin-bottom:12px;">📬</div>
+      <h3 style="font-size:16px;font-weight:700;color:#0f1623;margin-bottom:8px;">¿Tienes dudas o encontraste un problema?</h3>
+      <p style="font-size:14px;color:#555;max-width:480px;margin:0 auto 16px;">Contacta al equipo de desarrollo de la Plataforma Digital de Naves Industriales antes de la fecha límite para no bloquear el cronograma.</p>
+      <a class="btn btn-outline" href="https://github.com/LDominguezIA/atisa-golden-dataset" target="_blank" style="margin-right:8px;">
+        🔗 Abrir repositorio en GitHub
+      </a>
+    </div>
+
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <div class="footer">
+    <strong>ATISA · Plataforma Digital de Naves Industriales</strong><br>
+    Manual de entrega de insumos — Golden Dataset · Fase 1 · Mayo 2026<br>
+    Repositorio: github.com/LDominguezIA/atisa-golden-dataset
+  </div>
+
+</body>
+</html>

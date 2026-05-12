@@ -1,0 +1,5 @@
+{
+  "enabledPlugins": {
+    "claude-skills-engineering@local-skills": true
+  }
+}

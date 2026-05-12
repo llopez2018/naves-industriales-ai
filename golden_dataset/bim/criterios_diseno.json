@@ -1,0 +1,113 @@
+{
+  "_meta": {
+    "pilar": "bim",
+    "version": "1.0",
+    "descripcion": "Criterios de diseño arquitectónico-estructural y nomenclatura de familias Revit para naves industriales ATISA",
+    "instruccion_llm": "Usa estos criterios para validar si el diseño propuesto cumple los estándares mínimos de ATISA. Si detectas incumplimientos, repórtalos en tu respuesta antes de generar el presupuesto.",
+    "pendiente_datos_reales": true
+  },
+  "criterios_dimensionamiento": {
+    "claro_estructural": {
+      "minimo_m": 30,
+      "maximo_m": 60,
+      "recomendado_m": 45,
+      "notas": "DATO DE EJEMPLO — validar con manual real de ATISA"
+    },
+    "altura_libre_interior": {
+      "minimo_m": 9,
+      "estandar_logistica_m": 12,
+      "estandar_manufactura_m": 10,
+      "maximo_m": 18,
+      "notas": "DATO DE EJEMPLO — validar con manual real de ATISA"
+    },
+    "separacion_columnas": {
+      "longitudinal_m": 10,
+      "transversal_m": 45,
+      "notas": "DATO DE EJEMPLO — validar con manual real de ATISA"
+    },
+    "pendiente_cubierta": {
+      "minima_pct": 3,
+      "recomendada_pct": 5,
+      "maxima_pct": 15,
+      "notas": "DATO DE EJEMPLO — validar con manual real de ATISA"
+    }
+  },
+  "andenes_carga": {
+    "altura_anden_m": 1.2,
+    "profundidad_anden_m": 3.5,
+    "ancho_minimo_puerta_m": 4.5,
+    "separacion_entre_puertas_m": 6.0,
+    "puertas_por_1000m2": 1.5,
+    "rampa_acceso": {
+      "pendiente_maxima_pct": 10,
+      "ancho_minimo_m": 4.0
+    },
+    "notas": "DATO DE EJEMPLO — validar con manual real de ATISA"
+  },
+  "patios_maniobras": {
+    "radio_giro_minimo_m": 15,
+    "ancho_minimo_patio_m": 35,
+    "longitud_minima_zona_espera_m": 20,
+    "pavimento": "concreto hidráulico f'c=250 kg/cm²",
+    "pendiente_drenaje_pct": 2,
+    "notas": "DATO DE EJEMPLO — validar con manual real de ATISA"
+  },
+  "nomenclatura_revit": [
+    {
+      "familia_revit": "Muro_Panel_Concreto_16cm",
+      "elemento": "Muro perimetral panel prefabricado",
+      "clave_pu": "MU-001",
+      "unidad_medicion": "m²",
+      "notas": "DATO DE EJEMPLO"
+    },
+    {
+      "familia_revit": "Muro_Block_15cm",
+      "elemento": "Muro de block hueco 15cm",
+      "clave_pu": "MU-002",
+      "unidad_medicion": "m²",
+      "notas": "DATO DE EJEMPLO"
+    },
+    {
+      "familia_revit": "Columna_Concreto_50x50",
+      "elemento": "Columna prefabricada con zapata aislada",
+      "clave_pu": "CO-001",
+      "unidad_medicion": "pieza",
+      "notas": "DATO DE EJEMPLO"
+    },
+    {
+      "familia_revit": "Columna_Metalica_HSS",
+      "elemento": "Columna metálica HSS con dado de cimentación",
+      "clave_pu": "CO-002",
+      "unidad_medicion": "pieza",
+      "notas": "DATO DE EJEMPLO"
+    },
+    {
+      "familia_revit": "Cubierta_Lamina_Cal26",
+      "elemento": "Cubierta lámina galvanizada cal.26 con aislante",
+      "clave_pu": "CU-001",
+      "unidad_medicion": "m²",
+      "notas": "DATO DE EJEMPLO"
+    },
+    {
+      "familia_revit": "Lucernario_Policarbonato",
+      "elemento": "Lucernario translúcido en cubierta",
+      "clave_pu": "CU-002",
+      "unidad_medicion": "m²",
+      "notas": "DATO DE EJEMPLO"
+    },
+    {
+      "familia_revit": "Piso_Industrial_20cm",
+      "elemento": "Piso industrial concreto e=20cm con endurecedor",
+      "clave_pu": "PI-001",
+      "unidad_medicion": "m²",
+      "notas": "DATO DE EJEMPLO"
+    },
+    {
+      "familia_revit": "Estructura_Marcos_Rigidos",
+      "elemento": "Estructura metálica principal marcos rígidos",
+      "clave_pu": "ES-001",
+      "unidad_medicion": "m²",
+      "notas": "DATO DE EJEMPLO"
+    }
+  ]
+}

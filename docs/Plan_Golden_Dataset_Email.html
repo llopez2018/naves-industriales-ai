@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan de Implementación — Golden Dataset & Evaluación LLM · Naves Industriales</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f0ede8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1a1a1a;">
+
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f0ede8;padding:40px 20px;">
+    <tr>
+      <td align="center">
+        <table width="680" cellpadding="0" cellspacing="0" border="0" style="max-width:680px;width:100%;">
+
+          <!-- ══════════════════════ HEADER ══════════════════════ -->
+          <tr>
+            <td style="background:#0f1623;border-radius:12px 12px 0 0;padding:36px 40px;">
+              <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7c8fa6;">ATISA · Plataforma Digital de Naves Industriales</p>
+              <h1 style="margin:0 0 10px 0;font-size:26px;font-weight:800;color:#ffffff;line-height:1.25;">Plan de Implementación<br>Golden Dataset & Evaluación LLM</h1>
+              <p style="margin:0;font-size:14px;color:#94a3b8;line-height:1.5;">Fase 1 del proyecto · 6 semanas · Inicio: Mayo 2026<br>Sistema de evaluación continua con <strong style="color:#c7d8ef;">Gemini (Vertex AI)</strong> + <strong style="color:#c7d8ef;">Promptfoo</strong></p>
+            </td>
+          </tr>
+
+          <!-- ══════════════════════ SALUDO ══════════════════════ -->
+          <tr>
+            <td style="background:#ffffff;padding:28px 40px 0 40px;border-left:1px solid #e2ddd6;border-right:1px solid #e2ddd6;">
+              <p style="margin:0 0 4px 0;font-size:15px;color:#1a1a1a;line-height:1.6;">Buenas tardes, <strong>Luis Armando Arias</strong>:</p>
+              <p style="margin:0 0 0 0;font-size:14px;color:#555;line-height:1.7;">A continuación le presento el plan de implementación de la <strong>Fase 1</strong> correspondiente a la construcción del Golden Dataset y la configuración del sistema de evaluación continua con Inteligencia Artificial para la Plataforma Digital de Naves Industriales.</p>
+            </td>
+          </tr>
+
+          <!-- ══════════════════════ INTRODUCCIÓN ══════════════════════ -->
+          <tr>
+            <td style="background:#ffffff;padding:24px 40px 24px 40px;border-left:1px solid #e2ddd6;border-right:1px solid #e2ddd6;">
+              <h2 style="margin:0 0 12px 0;font-size:16px;font-weight:700;color:#0f1623;">¿Por qué construir el Golden Dataset?</h2>
+              <p style="margin:0 0 14px 0;font-size:14px;color:#444;line-height:1.7;">
+                Actualmente la plataforma genera presupuestos mediante fórmulas paramétricas codificadas en Python con precios unitarios fijos. Este enfoque funciona para estimaciones rápidas, pero tiene dos limitaciones críticas: no aprende de proyectos anteriores y no puede adaptarse a variaciones regionales, de mercado o de especificaciones técnicas particulares.
+              </p>
+              <p style="margin:0 0 14px 0;font-size:14px;color:#444;line-height:1.7;">
+                El <strong>Golden Dataset</strong> es el conjunto de datos de referencia que transforma al modelo de lenguaje (Gemini) de una IA genérica a un <strong>experto en naves industriales de ATISA</strong>. Al inyectarlo como contexto en cada consulta, el LLM razona con los mismos precios unitarios, criterios de diseño y estándares de suelos que usa el equipo de ingeniería, eliminando alucinaciones y desviaciones presupuestales.
+              </p>
+              <p style="margin:0;font-size:14px;color:#444;line-height:1.7;">
+                <strong>Promptfoo</strong> es el framework que nos permite medir objetivamente cuánto se aleja el LLM del cálculo humano en cada iteración, funcionando como un sistema de pruebas automatizado (similar a pruebas unitarias en software) que garantiza que cada ajuste al prompt mejora la precisión, no la deteriora.
+              </p>
+            </td>
+          </tr>
+
+          <!-- ══════════════════════ OBJETIVO Y KPI ══════════════════════ -->
+          <tr>
+            <td style="background:#ffffff;padding:0 40px 28px 40px;border-left:1px solid #e2ddd6;border-right:1px solid #e2ddd6;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="background:#f8f7f3;border-radius:8px;padding:18px 20px;">
+                    <p style="margin:0 0 10px 0;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#666;">Objetivo de la Fase 1</p>
+                    <p style="margin:0 0 14px 0;font-size:14px;color:#1a1a1a;line-height:1.6;">Lograr que Gemini genere un presupuesto de nave industrial con una desviación <strong>menor al 15%</strong> por concepto respecto al presupuesto validado por el equipo de ingeniería (ground truth), utilizando únicamente el contexto del Golden Dataset como fuente de conocimiento.</p>
+                    <table width="100%" cellpadding="0" cellspacing="8" border="0">
+                      <tr>
+                        <td width="33%" style="background:#dcfce7;border-radius:6px;padding:12px;text-align:center;">
+                          <p style="margin:0;font-size:20px;font-weight:800;color:#166534;">≤ 15%</p>
+                          <p style="margin:4px 0 0;font-size:11px;color:#166534;">Desviación máx. por concepto</p>
+                        </td>
+                        <td width="33%" style="background:#dbeafe;border-radius:6px;padding:12px;text-align:center;">
+                          <p style="margin:0;font-size:20px;font-weight:800;color:#1e40af;">6 sem</p>
+                          <p style="margin:4px 0 0;font-size:11px;color:#1e40af;">Duración total de la fase</p>
+                        </td>
+                        <td width="33%" style="background:#ede9fe;border-radius:6px;padding:12px;text-align:center;">
+                          <p style="margin:0;font-size:20px;font-weight:800;color:#5b21b6;">4 pilares</p>
+                          <p style="margin:4px 0 0;font-size:11px;color:#5b21b6;">Conjuntos de datos requeridos</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ══════════════════════ ALERTA RUTA CRÍTICA ══════════════════════ -->
+          <tr>
+            <td style="background:#ffffff;padding:0 40px 28px 40px;border-left:1px solid #e2ddd6;border-right:1px solid #e2ddd6;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="background:#fff7ed;border-left:4px solid #ea580c;border-radius:0 8px 8px 0;padding:16px 18px;">
+                    <p style="margin:0 0 4px 0;font-size:12px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:#ea580c;">Ruta Crítica — Bloqueante Semana 1</p>
+                    <p style="margin:0;font-size:13px;color:#7c2d12;line-height:1.6;">Todo el plan depende de que el equipo entregue los 4 insumos solicitados durante la Semana 1. Un retraso en la entrega de datos corre semana a semana el resto del plan. La única actividad que puede avanzar en paralelo sin los datos es la configuración técnica de Promptfoo y Vertex AI (Bloque C).</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ══════════════════════ SEMANA 1 ══════════════════════ -->
+          <tr>
+            <td style="background:#ffffff;padding:0 40px 8px 40px;border-left:1px solid #e2ddd6;border-right:1px solid #e2ddd6;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="background:#0f1623;border-radius:8px 8px 0 0;padding:12px 20px;">
+                    <p style="margin:0;font-size:13px;font-weight:700;color:#ffffff;">SEMANA 1 &nbsp;·&nbsp; Recepción y Auditoría de Insumos</p>
+                    <p style="margin:2px 0 0;font-size:11px;color:#94a3b8;">Bloque A — BLOQUEANTE para el resto del proyecto</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="background:#f8f7f3;border-radius:0 0 8px 8px;padding:20px;margin-bottom:20px;">
+
+                    <p style="margin:0 0 14px 0;font-size:13px;color:#444;line-height:1.7;font-style:italic;">
+                      <strong>Por qué es crítica esta semana:</strong> El LLM no puede ser más preciso que los datos con los que se le alimenta. Si los precios unitarios están desactualizados, si los estudios de suelos son de proyectos atípicos o si el presupuesto de ground truth tiene errores de captura, el modelo aprenderá esos errores y los replicará. Esta semana define la calidad de todo lo que viene.
+                    </p>
+
+                    <!-- Sub-actividad 1.1 -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:12px;">
+                      <tr>
+                        <td style="background:#ffffff;border:1px solid #e2ddd6;border-radius:8px;padding:16px 18px;">
+                          <p style="margin:0 0 4px 0;font-size:12px;font-weight:700;color:#1e40af;">A1 · Acuse y recepción formal de los 4 pilares</p>
+                          <p style="margin:0 0 10px 0;font-size:12px;color:#666;">Responsable: Project Manager &nbsp;|&nbsp; Duración: Días 1–3</p>
+                          <p style="margin:0 0 8px 0;font-size:13px;color:#333;line-height:1.6;">Recibir y organizar en carpetas los insumos solicitados al equipo:</p>
+                          <ul style="margin:0 0 10px 0;padding-left:18px;font-size:13px;color:#333;line-height:1.8;">
+                            <li><strong>Pilar Financiero:</strong> Listado de precios unitarios históricos (últimos 2 años) + catálogo de conceptos con descripciones técnicas completas.</li>
+                            <li><strong>Pilar Técnico:</strong> 3 a 5 estudios de mecánica de suelos de proyectos terminados + reportes de volúmenes de corte y relleno validados en obra.</li>
+                            <li><strong>Pilar BIM:</strong> Manual de criterios de diseño (distancias mínimas, andenes, patios) + nomenclatura estándar de familias Revit.</li>
+                            <li><strong>Ground Truth:</strong> Presupuesto final de una nave ya construida + archivo de cuantificación (QTO) original.</li>
+                          </ul>
+                          <p style="margin:0;font-size:12px;color:#166534;font-weight:600;">Entregable: Carpeta organizada en el servidor con todos los archivos etiquetados.</p>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <!-- Sub-actividad 1.2 -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:12px;">
+                      <tr>
+                        <td style="background:#ffffff;border:1px solid #e2ddd6;border-radius:8px;padding:16px 18px;">
+                          <p style="margin:0 0 4px 0;font-size:12px;font-weight:700;color:#1e40af;">A2 · Auditoría de calidad: criterios mínimos por pilar</p>
+                          <p style="margin:0 0 10px 0;font-size:12px;color:#666;">Responsable: Data Engineer + BIM Manager &nbsp;|&nbsp; Duración: Días 3–5</p>
+                          <p style="margin:0 0 8px 0;font-size:13px;color:#333;line-height:1.6;">Revisar cada insumo contra los siguientes criterios mínimos de calidad antes de procesarlo:</p>
+                          <ul style="margin:0 0 10px 0;padding-left:18px;font-size:13px;color:#333;line-height:1.8;">
+                            <li><strong>Precios unitarios:</strong> ¿Están en MXN? ¿La vigencia es posterior a enero 2024? ¿Incluyen la unidad de medida (m³, m², pza)?</li>
+                            <li><strong>Estudios de suelos:</strong> ¿Tienen clasificación SUCS? ¿Incluyen capacidad de carga admisible? ¿Reportan nivel freático y profundidad de desplante recomendada?</li>
+                            <li><strong>Volúmenes de obra:</strong> ¿El reporte distingue corte de relleno? ¿Hay firma de residente que valide las cifras?</li>
+                            <li><strong>Ground Truth:</strong> ¿El presupuesto tiene desglose por concepto (no solo totales)? ¿El QTO está en el mismo sistema de unidades?</li>
+                          </ul>
+                          <p style="margin:0;font-size:12px;color:#166534;font-weight:600;">Entregable: Matriz de completitud (semáforo verde/amarillo/rojo por pilar) + lista de gaps a subsanar.</p>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <!-- Sub-actividad 1.3 -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td style="background:#ffffff;border:1px solid #e2ddd6;border-radius:8px;padding:16px 18px;">
+                          <p style="margin:0 0 4px 0;font-size:12px;font-weight:700;color:#1e40af;">A3 · Segunda solicitud acotada (si hay gaps)</p>
+                          <p style="margin:0 0 10px 0;font-size:12px;color:#666;">Responsable: Project Manager &nbsp;|&nbsp; Duración: Día 5</p>
+                          <p style="margin:0;font-size:13px;color:#333;line-height:1.6;">Con base en la auditoría A2, emitir una solicitud de complemento específica y acotada al equipo. No solicitar todo de nuevo, solo los campos faltantes identificados. Establecer fecha límite de entrega máxima al inicio de la Semana 2 para no bloquear la normalización.</p>
+                        </td>
+                      </tr>
+                    </table>
+
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr><td style="background:#ffffff;padding:0 40px 20px 40px;border-left:1px solid #e2ddd6;border-right:1px solid #e2ddd6;">&nbsp;</td></tr>
+
+          <!-- ══════════════════════ SEMANA 2 ══════════════════════ -->
+          <tr>
+            <td style="background:#ffffff;padding:0 40px 8px 40px;border-left:1px solid #e2ddd6;border-right:1px solid #e2ddd6;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="background:#1e3a5f;border-radius:8px 8px 0 0;padding:12px 20px;">
+                    <p style="margin:0;font-size:13px;font-weight:700;color:#ffffff;">SEMANA 2 &nbsp;·&nbsp; Normalización de Datos + Setup Técnico</p>
+                    <p style="margin:2px 0 0;font-size:11px;color:#94a3b8;">Bloque B (datos) y Bloque C (técnico) corren en paralelo</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="background:#f8f7f3;border-radius:0 0 8px 8px;padding:20px;margin-bottom:20px;">
+
+                    <p style="margin:0 0 14px 0;font-size:13px;color:#444;line-height:1.7;font-style:italic;">
+                      <strong>Por qué dos flujos en paralelo:</strong> Mientras el equipo de datos convierte los insumos a formatos que el LLM puede consumir, el equipo técnico puede preparar el entorno de pruebas (Promptfoo + Vertex AI) sin depender de que los datos estén listos. Esto ahorra una semana completa en el cronograma.
+                    </p>
+
+                    <p style="margin:0 0 10px 0;font-size:12px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:#1e3a5f;">Flujo B — Normalización de Datos</p>
+
+                    <!-- B1 -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:12px;">
+                      <tr>
+                        <td style="background:#ffffff;border:1px solid #e2ddd6;border-radius:8px;padding:16px 18px;">
+                          <p style="margin:0 0 4px 0;font-size:12px;font-weight:700;color:#1e40af;">B1 · Convertir Pilar Financiero a JSON estructurado</p>
+                          <p style="margin:0 0 10px 0;font-size:12px;color:#666;">Responsable: Data Engineer + Desarrollador Python &nbsp;|&nbsp; Días 1–3</p>
+                          <p style="margin:0 0 8px 0;font-size:13px;color:#333;line-height:1.6;">Los precios unitarios suelen llegar en Excel o PDF con formatos inconsistentes. Esta tarea los convierte a un JSON con esquema fijo que el sistema puede procesar automáticamente:</p>
+                          <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:10px;">
+                            <tr>
+                              <td style="background:#1e293b;border-radius:6px;padding:12px;font-family:monospace;font-size:12px;color:#7dd3fc;">
+                                { "clave": "MT-001", "descripcion": "Excavación en material tipo II", "unidad": "m³", "pu_mxn": 135.00, "vigencia": "2025-Q4", "fuente": "Obra-Monterrey-2024" }
+                              </td>
+                            </tr>
+                          </table>
+                          <p style="margin:0 0 8px 0;font-size:13px;color:#333;line-height:1.6;">Se desarrolla además el script <code style="background:#f1f5f9;padding:2px 5px;border-radius:3px;font-size:12px;">normalize_costs.py</code> para que futuras actualizaciones de PU se procesen automáticamente sin intervención manual.</p>
+                          <p style="margin:0;font-size:12px;color:#166534;font-weight:600;">Entregable: <code style="font-size:11px;">golden_dataset/pilar_financiero.json</code> + script de normalización.</p>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <!-- B2 -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:12px;">
+                      <tr>
+                        <td style="background:#ffffff;border:1px solid #e2ddd6;border-radius:8px;padding:16px 18px;">
+                          <p style="margin:0 0 4px 0;font-size:12px;font-weight:700;color:#1e40af;">B2 · Normalizar Pilar Técnico (suelos + volúmenes de obra)</p>
+                          <p style="margin:0 0 10px 0;font-size:12px;color:#666;">Responsable: Data Engineer + BIM Manager &nbsp;|&nbsp; Días 2–4</p>
+                          <p style="margin:0 0 8px 0;font-size:13px;color:#333;line-height:1.6;">Extraer de los estudios de mecánica de suelos los parámetros que el LLM necesita para razonar sobre riesgo y diseño de cimentación: capacidad de carga admisible, clasificación SUCS, nivel freático, profundidad de desplante recomendada y factor de seguridad.<br><br>
+                          Los reportes de corte y relleno se normalizan al mismo esquema que ya usa el sistema (<code style="background:#f1f5f9;padding:2px 5px;border-radius:3px;font-size:12px;">terrain_results.json</code>) para mantener consistencia con el pipeline existente.</p>
+                          <p style="margin:0;font-size:12px;color:#166534;font-weight:600;">Entregable: <code style="font-size:11px;">golden_dataset/pilar_tecnico.json</code> con parámetros de los 3–5 proyectos de referencia.</p>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <p style="margin:14px 0 10px 0;font-size:12px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:#1e3a5f;">Flujo C — Setup Técnico (paralelo)</p>
+
+                    <!-- C1 -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:12px;">
+                      <tr>
+                        <td style="background:#ffffff;border:1px solid #e2ddd6;border-radius:8px;padding:16px 18px;">
+                          <p style="margin:0 0 4px 0;font-size:12px;font-weight:700;color:#1e40af;">C1 · Instalar Promptfoo y crear estructura de directorios</p>
+                          <p style="margin:0 0 10px 0;font-size:12px;color:#666;">Responsable: Desarrollador Python &nbsp;|&nbsp; Días 1–2</p>
+                          <p style="margin:0 0 8px 0;font-size:13px;color:#333;line-height:1.6;">Instalar Promptfoo como herramienta de evaluación de prompts en el proyecto. Crear la estructura de carpetas que organizará todos los componentes del sistema de evaluación continua:</p>
+                          <ul style="margin:0 0 10px 0;padding-left:18px;font-size:13px;color:#333;line-height:1.8;">
+                            <li><code style="background:#f1f5f9;padding:1px 4px;border-radius:2px;font-size:12px;">promptfoo/prompts/</code> — templates del system prompt y user prompt</li>
+                            <li><code style="background:#f1f5f9;padding:1px 4px;border-radius:2px;font-size:12px;">promptfoo/tests/</code> — casos de prueba y ground truth en YAML</li>
+                            <li><code style="background:#f1f5f9;padding:1px 4px;border-radius:2px;font-size:12px;">promptfoo/config/</code> — configuración del proveedor Vertex AI</li>
+                            <li><code style="background:#f1f5f9;padding:1px 4px;border-radius:2px;font-size:12px;">golden_dataset/</code> — los 4 pilares de datos normalizados</li>
+                          </ul>
+                          <p style="margin:0;font-size:12px;color:#166534;font-weight:600;">Entregable: Estructura de carpetas creada + Promptfoo instalado y ejecutable.</p>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <!-- C2 -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td style="background:#ffffff;border:1px solid #e2ddd6;border-radius:8px;padding:16px 18px;">
+                          <p style="margin:0 0 4px 0;font-size:12px;font-weight:700;color:#1e40af;">C2 · Conectar Vertex AI (Gemini 3.0 Preview) como proveedor</p>
+                          <p style="margin:0 0 10px 0;font-size:12px;color:#666;">Responsable: Desarrollador Python &nbsp;|&nbsp; Días 2–3</p>
+                          <p style="margin:0 0 8px 0;font-size:13px;color:#333;line-height:1.6;">Configurar el archivo <code style="background:#f1f5f9;padding:2px 5px;border-radius:3px;font-size:12px;">promptfooconfig.yaml</code> para que Promptfoo use Gemini 3.0 Preview a través de Vertex AI. Configurar las variables de entorno necesarias en un archivo <code style="background:#f1f5f9;padding:2px 5px;border-radius:3px;font-size:12px;">.env</code> que nunca se suba al repositorio:<br><br>
+                          <code style="background:#f1f5f9;padding:2px 5px;border-radius:3px;font-size:12px;">GOOGLE_API_KEY</code>, <code style="background:#f1f5f9;padding:2px 5px;border-radius:3px;font-size:12px;">VERTEX_PROJECT</code>, <code style="background:#f1f5f9;padding:2px 5px;border-radius:3px;font-size:12px;">VERTEX_REGION</code><br><br>
+                          Ejecutar una llamada de prueba básica para confirmar que la conexión responde correctamente antes de continuar con el diseño del prompt.</p>
+                          <p style="margin:0;font-size:12px;color:#166534;font-weight:600;">Entregable: <code style="font-size:11px;">promptfooconfig.yaml</code> funcional + test de conexión exitoso.</p>
+                        </td>
+                      </tr>
+                    </table>
+
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr><td style="background:#ffffff;padding:0 40px 20px 40px;border-left:1px solid #e2ddd6;border-right:1px solid #e2ddd6;">&nbsp;</td></tr>
+
+          <!-- ══════════════════════ SEMANA 3 ══════════════════════ -->
+          <tr>
+            <td style="background:#ffffff;padding:0 40px 8px 40px;border-left:1px solid #e2ddd6;border-right:1px solid #e2ddd6;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="background:#1e3a5f;border-radius:8px 8px 0 0;padding:12px 20px;">
+                    <p style="margin:0;font-size:13px;font-weight:700;color:#ffffff;">SEMANA 3 &nbsp;·&nbsp; Finalización del Dataset + Preparación del Ground Truth</p>
+                    <p style="margin:2px 0 0;font-size:11px;color:#94a3b8;">Bloque B continúa — datos BIM y casos de prueba</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="background:#f8f7f3;border-radius:0 0 8px 8px;padding:20px;">
+
+                    <p style="margin:0 0 14px 0;font-size:13px;color:#444;line-height:1.7;font-style:italic;">
+                      <strong>Por qué el Pilar BIM es diferente a los demás:</strong> Los datos de costos e ingeniería son numéricos y relativamente fáciles de normalizar. El pilar BIM contiene criterios cualitativos de diseño (distancias mínimas, configuraciones de anden) y una nomenclatura de familias Revit que necesita ser convertida a un formato que el LLM pueda asociar con conceptos de presupuesto. Es la tarea con mayor carga de interpretación técnica.
+                    </p>
+
+                    <!-- B3 -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:12px;">
+                      <tr>
+                        <td style="background:#ffffff;border:1px solid #e2ddd6;border-radius:8px;padding:16px 18px;">
+                          <p style="margin:0 0 4px 0;font-size:12px;font-weight:700;color:#1e40af;">B3 · Digitalizar Pilar BIM: criterios de diseño y familias Revit</p>
+                          <p style="margin:0 0 10px 0;font-size:12px;color:#666;">Responsable: BIM Manager + Data Engineer &nbsp;|&nbsp; Días 1–3</p>
+                          <p style="margin:0 0 8px 0;font-size:13px;color:#333;line-height:1.6;">Convertir el manual de criterios de diseño a un JSON consultable que el LLM puede referenciar al momento de validar un diseño. Incluir distancias mínimas entre columnas, radio mínimo de giro para camiones, altura libre de nave, configuración de andenes de carga, ancho de patios de maniobras.<br><br>
+                          Crear un diccionario de familias Revit que mapea cada nombre de familia al concepto de presupuesto correspondiente, de modo que si el QTO menciona <em>"Muro_Panel_Concreto_20cm"</em>, la IA sepa que debe cotizarlo como muros perimetrales a precio de panel prefabricado.</p>
+                          <p style="margin:0;font-size:12px;color:#166534;font-weight:600;">Entregable: <code style="font-size:11px;">golden_dataset/pilar_bim.json</code> + <code style="font-size:11px;">golden_dataset/revit_nomenclature.json</code>.</p>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <!-- B4 -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td style="background:#ffffff;border:1px solid #e2ddd6;border-radius:8px;padding:16px 18px;">
+                          <p style="margin:0 0 4px 0;font-size:12px;font-weight:700;color:#1e40af;">B4 · Convertir Ground Truth en casos de prueba de Promptfoo</p>
+                          <p style="margin:0 0 10px 0;font-size:12px;color:#666;">Responsable: Data Engineer + Desarrollador Python &nbsp;|&nbsp; Días 3–5</p>
+                          <p style="margin:0 0 8px 0;font-size:13px;color:#333;line-height:1.6;">Esta es la tarea más estratégica de la semana. El presupuesto final de la nave construida se convierte en el <strong>"examen"</strong> que el LLM debe aprobar. Para cada concepto del presupuesto real se define una aserción con tolerancia diferenciada según la certidumbre del concepto:</p>
+                          <ul style="margin:0 0 10px 0;padding-left:18px;font-size:13px;color:#333;line-height:1.8;">
+                            <li><strong>Movimiento de tierras:</strong> tolerancia ±20% (muy dependiente del terreno específico)</li>
+                            <li><strong>Piso industrial:</strong> tolerancia ±10% (precio relativamente estable por m²)</li>
+                            <li><strong>Estructura metálica:</strong> tolerancia ±15% (variable por peso de acero)</li>
+                            <li><strong>Columnas:</strong> tolerancia ±10% (precio por pieza estandarizado)</li>
+                            <li><strong>Total general:</strong> tolerancia ±15% como criterio de aprobación</li>
+                          </ul>
+                          <p style="margin:0;font-size:12px;color:#166534;font-weight:600;">Entregable: <code style="font-size:11px;">promptfoo/tests/ground_truth.yaml</code> con casos de prueba y aserciones por concepto.</p>
+                        </td>
+                      </tr>
+                    </table>
+
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr><td style="background:#ffffff;padding:0 40px 20px 40px;border-left:1px solid #e2ddd6;border-right:1px solid #e2ddd6;">&nbsp;</td></tr>
+
+          <!-- ══════════════════════ SEMANA 4 ══════════════════════ -->
+          <tr>
+            <td style="background:#ffffff;padding:0 40px 8px 40px;border-left:1px solid #e2ddd6;border-right:1px solid #e2ddd6;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="background:#1e3a5f;border-radius:8px 8px 0 0;padding:12px 20px;">
+                    <p style="margin:0;font-size:13px;font-weight:700;color:#ffffff;">SEMANA 4 &nbsp;·&nbsp; Diseño y Escritura del System Prompt</p>
+                    <p style="margin:2px 0 0;font-size:11px;color:#94a3b8;">Bloque D — El "cerebro" del sistema. Requiere los 4 pilares completos.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="background:#f8f7f3;border-radius:0 0 8px 8px;padding:20px;">
+
+                    <p style="margin:0 0 14px 0;font-size:13px;color:#444;line-height:1.7;font-style:italic;">
+                      <strong>Por qué el diseño del prompt es una disciplina en sí misma:</strong> Un LLM no lee datos como una base de datos; razona sobre instrucciones en lenguaje natural. El system prompt debe estructurar los 4 pilares de manera que Gemini entienda: qué datos puede usar, cómo debe priorizar fuentes de información, qué formato debe tener su respuesta y cuál es el estándar de calidad exigido. Un prompt mal diseñado hace que el modelo ignore el contexto y "alucine" precios.
+                    </p>
+
+                    <!-- D1 -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:12px;">
+                      <tr>
+                        <td style="background:#ffffff;border:1px solid #e2ddd6;border-radius:8px;padding:16px 18px;">
+                          <p style="margin:0 0 4px 0;font-size:12px;font-weight:700;color:#1e40af;">D1 · Redactar el System Prompt con los 4 pilares de contexto</p>
+                          <p style="margin:0 0 10px 0;font-size:12px;color:#666;">Responsable: Desarrollador Python + Data Engineer &nbsp;|&nbsp; Días 1–3</p>
+                          <p style="margin:0 0 8px 0;font-size:13px;color:#333;line-height:1.6;">Escribir el archivo <code style="background:#f1f5f9;padding:2px 5px;border-radius:3px;font-size:12px;">prompts/system_golden.txt</code> que inyecta el Golden Dataset completo como instrucción maestra. El prompt se estructura en 5 secciones:</p>
+                          <ul style="margin:0 0 10px 0;padding-left:18px;font-size:13px;color:#333;line-height:1.8;">
+                            <li><strong>ROL:</strong> "Eres el copiloto financiero de ATISA, especialista en naves industriales..."</li>
+                            <li><strong>COSTOS (Pilar 1):</strong> Catálogo de PU vigentes que debes usar como fuente primaria de precios. Nunca uses precios externos.</li>
+                            <li><strong>INGENIERÍA (Pilar 2):</strong> Parámetros de suelo de referencia para estimar riesgos geotécnicos y costos de cimentación diferenciada.</li>
+                            <li><strong>DISEÑO BIM (Pilar 3):</strong> Criterios de dimensionamiento y nomenclatura Revit para interpretar los elementos del QTO.</li>
+                            <li><strong>FORMATO DE RESPUESTA:</strong> JSON estricto con desglose por concepto, subtotal, indirectos, total y costo por m².</li>
+                          </ul>
+                          <p style="margin:0 0 8px 0;font-size:13px;color:#333;line-height:1.6;">Meta de longitud: mantener el prompt bajo 8,000 tokens para optimizar latencia y costo en Gemini 3.0 Preview.</p>
+                          <p style="margin:0;font-size:12px;color:#166534;font-weight:600;">Entregable: <code style="font-size:11px;">prompts/system_golden.txt</code> — versión 1.0 del system prompt.</p>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <!-- D2 -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td style="background:#ffffff;border:1px solid #e2ddd6;border-radius:8px;padding:16px 18px;">
+                          <p style="margin:0 0 4px 0;font-size:12px;font-weight:700;color:#1e40af;">D2 · Diseñar el User Prompt: template de input del proyecto</p>
+                          <p style="margin:0 0 10px 0;font-size:12px;color:#666;">Responsable: Desarrollador Python &nbsp;|&nbsp; Días 3–4</p>
+                          <p style="margin:0 0 8px 0;font-size:13px;color:#333;line-height:1.6;">Crear el template del mensaje de usuario que Promptfoo inyecta dinámicamente para cada caso de prueba. Debe incluir todos los parámetros que el LLM necesita para generar el presupuesto:</p>
+                          <ul style="margin:0 0 8px 0;padding-left:18px;font-size:13px;color:#333;line-height:1.8;">
+                            <li>Área de la nave (m²), cota óptima calculada (m), volumen de corte y relleno (m³)</li>
+                            <li>Número de columnas estimadas, perímetro (m), región geográfica del proyecto</li>
+                            <li>Tipo de uso (logística, manufactura, almacén frío) para ajustar especificaciones</li>
+                          </ul>
+                          <p style="margin:0;font-size:12px;color:#166534;font-weight:600;">Entregable: <code style="font-size:11px;">prompts/user_request.txt</code> con variables dinámicas compatibles con Promptfoo.</p>
+                        </td>
+                      </tr>
+                    </table>
+
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr><td style="background:#ffffff;padding:0 40px 20px 40px;border-left:1px solid #e2ddd6;border-right:1px solid #e2ddd6;">&nbsp;</td></tr>
+
+          <!-- ══════════════════════ SEMANA 5 ══════════════════════ -->
+          <tr>
+            <td style="background:#ffffff;padding:0 40px 8px 40px;border-left:1px solid #e2ddd6;border-right:1px solid #e2ddd6;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="background:#1e3a5f;border-radius:8px 8px 0 0;padding:12px 20px;">
+                    <p style="margin:0;font-size:13px;font-weight:700;color:#ffffff;">SEMANA 5 &nbsp;·&nbsp; Primera Evaluación Formal con Promptfoo</p>
+                    <p style="margin:2px 0 0;font-size:11px;color:#94a3b8;">Bloque E — Primera medición objetiva de precisión del LLM</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="background:#f8f7f3;border-radius:0 0 8px 8px;padding:20px;">
+
+                    <p style="margin:0 0 14px 0;font-size:13px;color:#444;line-height:1.7;font-style:italic;">
+                      <strong>Por qué evaluar formalmente antes de iterar:</strong> Sin una medición objetiva de la línea base, cualquier cambio al prompt es una suposición. Promptfoo ejecuta el prompt contra todos los casos del ground truth de forma automatizada y genera un reporte que muestra exactamente qué conceptos están dentro de tolerancia y cuáles no, convirtiendo el proceso de mejora en ciencia, no en intuición.
+                    </p>
+
+                    <!-- E1 -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:12px;">
+                      <tr>
+                        <td style="background:#ffffff;border:1px solid #e2ddd6;border-radius:8px;padding:16px 18px;">
+                          <p style="margin:0 0 4px 0;font-size:12px;font-weight:700;color:#1e40af;">E1 · Ejecutar primera ronda de evaluación con promptfoo eval</p>
+                          <p style="margin:0 0 10px 0;font-size:12px;color:#666;">Responsable: Desarrollador Python + Gemini/Promptfoo &nbsp;|&nbsp; Días 1–2</p>
+                          <p style="margin:0 0 8px 0;font-size:13px;color:#333;line-height:1.6;">Ejecutar el comando <code style="background:#f1f5f9;padding:2px 5px;border-radius:3px;font-size:12px;">promptfoo eval</code> con el system prompt v1.0 contra todos los casos del ground truth. Promptfoo enviará cada caso a Gemini, recogerá las respuestas y las evaluará automáticamente contra las aserciones definidas en el YAML.<br><br>
+                          Se generará un reporte HTML con la tasa de aprobación por concepto, el valor generado por la IA vs el valor real, y el % de desviación en cada caso.</p>
+                          <p style="margin:0;font-size:12px;color:#166534;font-weight:600;">Entregable: Reporte HTML de Promptfoo con resultados de la evaluación v1.0 — compartir con equipo.</p>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <!-- E2 -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td style="background:#ffffff;border:1px solid #e2ddd6;border-radius:8px;padding:16px 18px;">
+                          <p style="margin:0 0 4px 0;font-size:12px;font-weight:700;color:#1e40af;">E2 · Diagnóstico de desviaciones y causa raíz</p>
+                          <p style="margin:0 0 10px 0;font-size:12px;color:#666;">Responsable: Data Engineer + Desarrollador Python + BIM Manager &nbsp;|&nbsp; Días 3–5</p>
+                          <p style="margin:0 0 8px 0;font-size:13px;color:#333;line-height:1.6;">Con los resultados del reporte, analizar qué conceptos tienen desviaciones mayores al 15% e identificar la causa raíz de cada falla. Las causas más comunes son:</p>
+                          <ul style="margin:0 0 10px 0;padding-left:18px;font-size:13px;color:#333;line-height:1.8;">
+                            <li><strong>Pilar incompleto:</strong> El LLM no tiene suficiente información sobre ese concepto en el contexto.</li>
+                            <li><strong>PU desactualizado:</strong> El precio unitario del catálogo no refleja el precio real del ground truth.</li>
+                            <li><strong>Ambigüedad en el prompt:</strong> La instrucción sobre cómo calcular ese concepto no es suficientemente específica.</li>
+                            <li><strong>Concepto fuera del Golden Dataset:</strong> El proyecto de ground truth tiene un elemento que no está cubierto en el catálogo.</li>
+                          </ul>
+                          <p style="margin:0;font-size:12px;color:#166534;font-weight:600;">Entregable: Lista priorizada de ajustes (máx. 10 ítems) ordenada por impacto en la precisión total.</p>
+                        </td>
+                      </tr>
+                    </table>
+
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr><td style="background:#ffffff;padding:0 40px 20px 40px;border-left:1px solid #e2ddd6;border-right:1px solid #e2ddd6;">&nbsp;</td></tr>
+
+          <!-- ══════════════════════ SEMANA 6 ══════════════════════ -->
+          <tr>
+            <td style="background:#ffffff;padding:0 40px 8px 40px;border-left:1px solid #e2ddd6;border-right:1px solid #e2ddd6;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="background:#1e3a5f;border-radius:8px 8px 0 0;padding:12px 20px;">
+                    <p style="margin:0;font-size:13px;font-weight:700;color:#ffffff;">SEMANA 6 &nbsp;·&nbsp; Iteración, Benchmark Final y Cierre de Fase</p>
+                    <p style="margin:2px 0 0;font-size:11px;color:#94a3b8;">Bloque F — Máximo 3 ciclos de mejora + validación formal</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="background:#f8f7f3;border-radius:0 0 8px 8px;padding:20px;">
+
+                    <p style="margin:0 0 14px 0;font-size:13px;color:#444;line-height:1.7;font-style:italic;">
+                      <strong>Por qué limitar a 3 ciclos de iteración:</strong> La mejora de un prompt tiene retornos decrecientes. Las primeras 2 iteraciones generalmente resuelven el 80% de las desviaciones. A partir de la 3ª iteración, las mejoras son marginales y el esfuerzo debería dirigirse a enriquecer el Golden Dataset con más proyectos, no a refinar el prompt. El benchmark final marca el punto de entrega formal de la Fase 1.
+                    </p>
+
+                    <!-- F1 -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:12px;">
+                      <tr>
+                        <td style="background:#ffffff;border:1px solid #e2ddd6;border-radius:8px;padding:16px 18px;">
+                          <p style="margin:0 0 4px 0;font-size:12px;font-weight:700;color:#1e40af;">F1 · Ciclos de iteración del prompt (máximo 3 rondas)</p>
+                          <p style="margin:0 0 10px 0;font-size:12px;color:#666;">Responsable: Desarrollador Python &nbsp;|&nbsp; Días 1–3</p>
+                          <p style="margin:0 0 8px 0;font-size:13px;color:#333;line-height:1.6;">Para cada ajuste identificado en E2, actualizar el system prompt y ejecutar <code style="background:#f1f5f9;padding:2px 5px;border-radius:3px;font-size:12px;">promptfoo eval</code> nuevamente. Promptfoo almacena automáticamente el historial de versiones, lo que permite comparar la mejora de precisión entre v1.0, v1.1 y v1.2 con una tabla de evolución.<br><br>
+                          Criterio de parada: cuando el 85% de los conceptos del ground truth pasen sus aserciones (desviación ≤ tolerancia definida en B4), o cuando se agoten los 3 ciclos permitidos.</p>
+                          <p style="margin:0;font-size:12px;color:#166534;font-weight:600;">Entregable: Tabla comparativa de precisión v1.0 → v1.1 → v1.2 por concepto.</p>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <!-- F2 -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td style="background:#ffffff;border:1px solid #e2ddd6;border-radius:8px;padding:16px 18px;">
+                          <p style="margin:0 0 4px 0;font-size:12px;font-weight:700;color:#1e40af;">F2 · Benchmark final y presentación de resultados al equipo</p>
+                          <p style="margin:0 0 10px 0;font-size:12px;color:#666;">Responsable: Todo el equipo &nbsp;|&nbsp; Días 4–5</p>
+                          <p style="margin:0 0 8px 0;font-size:13px;color:#333;line-height:1.6;">Ejecutar el prompt final contra el ground truth completo y presentar al equipo una tabla comparativa de IA vs cálculo humano con las siguientes métricas de cierre:</p>
+                          <ul style="margin:0 0 10px 0;padding-left:18px;font-size:13px;color:#333;line-height:1.8;">
+                            <li>Presupuesto total generado por IA vs presupuesto validado por ingeniería (MXN y %)</li>
+                            <li>Desviación por concepto (semáforo verde/amarillo/rojo)</li>
+                            <li>Tiempo de generación del presupuesto (segundos vs días-hombre del proceso actual)</li>
+                            <li>Criterios de aceptación formales definidos para integrar el LLM al flujo productivo</li>
+                          </ul>
+                          <p style="margin:0;font-size:12px;color:#166534;font-weight:600;">Entregable: Reporte de cierre de Fase 1 + definición de criterios de aceptación para la Fase 3 (integración Oracle OIC).</p>
+                        </td>
+                      </tr>
+                    </table>
+
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr><td style="background:#ffffff;padding:0 40px 20px 40px;border-left:1px solid #e2ddd6;border-right:1px solid #e2ddd6;">&nbsp;</td></tr>
+
+          <!-- ══════════════════════ RESUMEN DE ENTREGABLES ══════════════════════ -->
+          <tr>
+            <td style="background:#ffffff;padding:0 40px 32px 40px;border-left:1px solid #e2ddd6;border-right:1px solid #e2ddd6;">
+              <h2 style="margin:0 0 16px 0;font-size:16px;font-weight:700;color:#0f1623;">Resumen de Entregables por Semana</h2>
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+                <tr style="background:#0f1623;">
+                  <td style="padding:10px 14px;font-size:12px;font-weight:700;color:#94a3b8;border-radius:6px 0 0 0;">Semana</td>
+                  <td style="padding:10px 14px;font-size:12px;font-weight:700;color:#94a3b8;">Entregable principal</td>
+                  <td style="padding:10px 14px;font-size:12px;font-weight:700;color:#94a3b8;border-radius:0 6px 0 0;">Responsable</td>
+                </tr>
+                <tr style="background:#f8f7f3;">
+                  <td style="padding:10px 14px;font-size:13px;color:#333;font-weight:700;border-bottom:1px solid #e2ddd6;">Sem 1</td>
+                  <td style="padding:10px 14px;font-size:13px;color:#333;border-bottom:1px solid #e2ddd6;">Matriz de completitud de insumos + lista de gaps</td>
+                  <td style="padding:10px 14px;font-size:13px;color:#666;border-bottom:1px solid #e2ddd6;">PM + Data</td>
+                </tr>
+                <tr style="background:#ffffff;">
+                  <td style="padding:10px 14px;font-size:13px;color:#333;font-weight:700;border-bottom:1px solid #e2ddd6;">Sem 2</td>
+                  <td style="padding:10px 14px;font-size:13px;color:#333;border-bottom:1px solid #e2ddd6;"><code style="font-size:11px;">pilar_financiero.json</code> + Promptfoo conectado a Vertex AI</td>
+                  <td style="padding:10px 14px;font-size:13px;color:#666;border-bottom:1px solid #e2ddd6;">Data + Dev Python</td>
+                </tr>
+                <tr style="background:#f8f7f3;">
+                  <td style="padding:10px 14px;font-size:13px;color:#333;font-weight:700;border-bottom:1px solid #e2ddd6;">Sem 3</td>
+                  <td style="padding:10px 14px;font-size:13px;color:#333;border-bottom:1px solid #e2ddd6;"><code style="font-size:11px;">pilar_bim.json</code> + <code style="font-size:11px;">ground_truth.yaml</code> con aserciones</td>
+                  <td style="padding:10px 14px;font-size:13px;color:#666;border-bottom:1px solid #e2ddd6;">BIM + Data</td>
+                </tr>
+                <tr style="background:#ffffff;">
+                  <td style="padding:10px 14px;font-size:13px;color:#333;font-weight:700;border-bottom:1px solid #e2ddd6;">Sem 4</td>
+                  <td style="padding:10px 14px;font-size:13px;color:#333;border-bottom:1px solid #e2ddd6;"><code style="font-size:11px;">system_golden.txt</code> v1.0 + <code style="font-size:11px;">user_request.txt</code></td>
+                  <td style="padding:10px 14px;font-size:13px;color:#666;border-bottom:1px solid #e2ddd6;">Dev Python</td>
+                </tr>
+                <tr style="background:#f8f7f3;">
+                  <td style="padding:10px 14px;font-size:13px;color:#333;font-weight:700;border-bottom:1px solid #e2ddd6;">Sem 5</td>
+                  <td style="padding:10px 14px;font-size:13px;color:#333;border-bottom:1px solid #e2ddd6;">Reporte HTML de Promptfoo + lista priorizada de ajustes</td>
+                  <td style="padding:10px 14px;font-size:13px;color:#666;border-bottom:1px solid #e2ddd6;">Dev Python + Data</td>
+                </tr>
+                <tr style="background:#ffffff;">
+                  <td style="padding:10px 14px;font-size:13px;color:#333;font-weight:700;">Sem 6</td>
+                  <td style="padding:10px 14px;font-size:13px;color:#333;">Benchmark final IA vs humano + criterios de aceptación Fase 3</td>
+                  <td style="padding:10px 14px;font-size:13px;color:#666;">Todo el equipo</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ══════════════════════ FOOTER ══════════════════════ -->
+          <tr>
+            <td style="background:#0f1623;border-radius:0 0 12px 12px;padding:24px 40px;">
+              <p style="margin:0 0 6px 0;font-size:13px;color:#94a3b8;">Plataforma Digital de Naves Industriales · ATISA</p>
+              <p style="margin:0;font-size:12px;color:#475569;">Este documento corresponde a la Fase 1 del proyecto. Requiere la entrega de insumos del equipo de ingeniería durante la Semana 1 para iniciar la ruta crítica.</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>

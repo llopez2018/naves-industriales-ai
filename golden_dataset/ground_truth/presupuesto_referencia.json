@@ -1,0 +1,95 @@
+{
+  "_meta": {
+    "pilar": "ground_truth",
+    "version": "1.0",
+    "descripcion": "Presupuesto final validado de nave industrial construida — usado como referencia de precisión para el LLM",
+    "instruccion_llm": "Este es el presupuesto real de una nave ya construida y validada. Cuando generes un presupuesto nuevo, tu resultado debe estar dentro de la tolerancia indicada por concepto. Si te preguntan por qué cierto concepto varía, explica los factores de diferencia.",
+    "pendiente_datos_reales": true
+  },
+  "proyecto": {
+    "nombre": "PENDIENTE — reemplazar con nombre real del proyecto",
+    "ubicacion": "PENDIENTE",
+    "fecha_presupuesto": "PENDIENTE",
+    "fecha_construccion": "PENDIENTE",
+    "area_nave_m2": 50000,
+    "tipo_uso": "logística",
+    "elaborado_por": "PENDIENTE",
+    "validado_por": "PENDIENTE"
+  },
+  "desglose": [
+    {
+      "concepto": "Movimiento de Tierras",
+      "clave_categoria": "MT",
+      "monto_mxn": 29496075,
+      "porcentaje_total": 20.1,
+      "tolerancia_desviacion_pct": 20,
+      "unidad_referencia": "m³",
+      "cantidad_referencia": 218495,
+      "pu_aplicado": 135.0,
+      "notas": "DATO DE EJEMPLO — reemplazar con presupuesto real validado"
+    },
+    {
+      "concepto": "Piso Industrial",
+      "clave_categoria": "PI",
+      "monto_mxn": 47500000,
+      "porcentaje_total": 32.3,
+      "tolerancia_desviacion_pct": 10,
+      "unidad_referencia": "m²",
+      "cantidad_referencia": 50000,
+      "pu_aplicado": 950.0,
+      "notas": "DATO DE EJEMPLO — reemplazar con presupuesto real validado"
+    },
+    {
+      "concepto": "Estructura Metálica",
+      "clave_categoria": "ES",
+      "monto_mxn": 35000000,
+      "porcentaje_total": 23.8,
+      "tolerancia_desviacion_pct": 15,
+      "unidad_referencia": "m²",
+      "cantidad_referencia": 50000,
+      "pu_aplicado": 700.0,
+      "notas": "DATO DE EJEMPLO — reemplazar con presupuesto real validado"
+    },
+    {
+      "concepto": "Columnas y Cimentación",
+      "clave_categoria": "CO",
+      "monto_mxn": 18500000,
+      "porcentaje_total": 12.6,
+      "tolerancia_desviacion_pct": 10,
+      "unidad_referencia": "pieza",
+      "cantidad_referencia": 100,
+      "pu_aplicado": 185000.0,
+      "notas": "DATO DE EJEMPLO — reemplazar con presupuesto real validado"
+    },
+    {
+      "concepto": "Muros y Fachadas",
+      "clave_categoria": "MU",
+      "monto_mxn": 8400000,
+      "porcentaje_total": 5.7,
+      "tolerancia_desviacion_pct": 10,
+      "unidad_referencia": "m²",
+      "cantidad_referencia": 6000,
+      "pu_aplicado": 1400.0,
+      "notas": "DATO DE EJEMPLO — reemplazar con presupuesto real validado"
+    },
+    {
+      "concepto": "Cubierta",
+      "clave_categoria": "CU",
+      "monto_mxn": 8157496,
+      "porcentaje_total": 5.5,
+      "tolerancia_desviacion_pct": 12,
+      "unidad_referencia": "m²",
+      "cantidad_referencia": 50000,
+      "pu_aplicado": 520.0,
+      "notas": "DATO DE EJEMPLO — reemplazar con presupuesto real validado"
+    }
+  ],
+  "resumen": {
+    "subtotal_directo_mxn": 147053571,
+    "indirectos_pct": 15,
+    "indirectos_mxn": 22058035,
+    "total_mxn": 169111606,
+    "costo_por_m2_mxn": 3382,
+    "tolerancia_total_pct": 15
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "_meta": {
+    "pilar": "tecnico",
+    "version": "1.0",
+    "descripcion": "Parámetros geotécnicos y volúmenes de obra de proyectos de referencia ATISA",
+    "instruccion_llm": "Usa estos parámetros para estimar riesgos geotécnicos, profundidad de desplante y costos diferenciados de cimentación. Si el nuevo proyecto está en una región similar a algún estudio de referencia, aplica sus parámetros como base.",
+    "pendiente_datos_reales": true
+  },
+  "estudios_mecanica_suelos": [
+    {
+      "id": "EMS-001",
+      "obra_referencia": "PENDIENTE — reemplazar con nombre de proyecto real",
+      "region": "PENDIENTE",
+      "fecha_estudio": "PENDIENTE",
+      "empresa_laboratorio": "PENDIENTE",
+      "clasificacion_sucs": "CL",
+      "descripcion_suelo": "Arcilla de baja plasticidad con limo, color café claro",
+      "capacidad_carga_admisible_ton_m2": 8.5,
+      "profundidad_desplante_recomendada_m": 1.5,
+      "nivel_freatico_m": 4.2,
+      "cohesion_kg_cm2": 0.18,
+      "angulo_friccion_grados": 22,
+      "modulo_elasticidad_kg_cm2": 120,
+      "compresibilidad": "media",
+      "riesgo_geotecnico": "bajo",
+      "requiere_muro_contencion": false,
+      "requiere_estudio_adicional": false,
+      "notas": "DATO DE EJEMPLO — reemplazar con estudio real de ATISA"
+    },
+    {
+      "id": "EMS-002",
+      "obra_referencia": "PENDIENTE — reemplazar con nombre de proyecto real",
+      "region": "PENDIENTE",
+      "fecha_estudio": "PENDIENTE",
+      "empresa_laboratorio": "PENDIENTE",
+      "clasificacion_sucs": "GP",
+      "descripcion_suelo": "Grava bien graduada con arena, material de origen volcánico",
+      "capacidad_carga_admisible_ton_m2": 22.0,
+      "profundidad_desplante_recomendada_m": 1.2,
+      "nivel_freatico_m": 12.0,
+      "cohesion_kg_cm2": 0.0,
+      "angulo_friccion_grados": 38,
+      "modulo_elasticidad_kg_cm2": 450,
+      "compresibilidad": "baja",
+      "riesgo_geotecnico": "muy_bajo",
+      "requiere_muro_contencion": false,
+      "requiere_estudio_adicional": false,
+      "notas": "DATO DE EJEMPLO — reemplazar con estudio real de ATISA"
+    },
+    {
+      "id": "EMS-003",
+      "obra_referencia": "PENDIENTE — reemplazar con nombre de proyecto real",
+      "region": "PENDIENTE",
+      "fecha_estudio": "PENDIENTE",
+      "empresa_laboratorio": "PENDIENTE",
+      "clasificacion_sucs": "MH",
+      "descripcion_suelo": "Limo de alta plasticidad, expansivo, color gris verdoso",
+      "capacidad_carga_admisible_ton_m2": 4.0,
+      "profundidad_desplante_recomendada_m": 2.5,
+      "nivel_freatico_m": 1.8,
+      "cohesion_kg_cm2": 0.08,
+      "angulo_friccion_grados": 14,
+      "modulo_elasticidad_kg_cm2": 55,
+      "compresibilidad": "alta",
+      "riesgo_geotecnico": "alto",
+      "requiere_muro_contencion": true,
+      "requiere_estudio_adicional": true,
+      "notas": "DATO DE EJEMPLO — reemplazar con estudio real de ATISA"
+    }
+  ],
+  "volumenes_obra_referencia": [
+    {
+      "id": "VOL-001",
+      "obra_referencia": "PENDIENTE",
+      "area_nave_m2": 50000,
+      "cota_optima_m": 59.97,
+      "volumen_corte_m3": 218495,
+      "volumen_relleno_m3": 218495,
+      "volumen_desperdicio_m3": 0,
+      "distancia_acarreo_km": 5,
+      "costo_total_tierras_mxn": 29496075,
+      "validado_por": "PENDIENTE",
+      "fecha_validacion": "PENDIENTE",
+      "notas": "DATO DE EJEMPLO — reemplazar con volúmenes reales validados en obra"
+    },
+    {
+      "id": "VOL-002",
+      "obra_referencia": "PENDIENTE",
+      "area_nave_m2": 30000,
+      "cota_optima_m": 45.20,
+      "volumen_corte_m3": 95000,
+      "volumen_relleno_m3": 110000,
+      "volumen_desperdicio_m3": 0,
+      "distancia_acarreo_km": 8,
+      "costo_total_tierras_mxn": 16800000,
+      "validado_por": "PENDIENTE",
+      "fecha_validacion": "PENDIENTE",
+      "notas": "DATO DE EJEMPLO — reemplazar con volúmenes reales validados en obra"
+    }
+  ]
+}

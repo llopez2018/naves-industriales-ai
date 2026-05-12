@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Golden Dataset — ATISA Naves Industriales</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #f4f3ef; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a1a; padding: 32px 20px; }
+    .container { max-width: 1020px; margin: 0 auto; }
+
+    header { background: #0f1623; border-radius: 12px; padding: 28px 32px; margin-bottom: 24px; }
+    header .tag { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #7c8fa6; margin-bottom: 6px; }
+    header h1 { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 10px; }
+    header .chips { display: flex; gap: 10px; flex-wrap: wrap; }
+    header .chips span { font-size: 12px; color: #94a3b8; background: #1e2d3d; padding: 4px 12px; border-radius: 20px; }
+
+    .alert { background: #fff7ed; border-left: 4px solid #ea580c; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 20px; font-size: 13px; color: #7c2d12; }
+    .alert strong { display: block; font-size: 11px; letter-spacing: 0.5px; text-transform: uppercase; color: #ea580c; margin-bottom: 3px; }
+
+    /* Pilares nav */
+    .pilares-nav { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
+    .pilar-btn { padding: 14px 10px; border-radius: 10px; border: 2px solid #e2ddd6; background: #fff; cursor: pointer; text-align: center; transition: all 0.15s; }
+    .pilar-btn:hover { border-color: #aaa; }
+    .pilar-btn .icon { font-size: 22px; margin-bottom: 6px; }
+    .pilar-btn .nombre { font-size: 12px; font-weight: 700; display: block; }
+    .pilar-btn .sub { font-size: 11px; color: #888; }
+    .pilar-btn.active-fin  { border-color: #b45309; background: #fffbeb; }
+    .pilar-btn.active-tec  { border-color: #0369a1; background: #f0f9ff; }
+    .pilar-btn.active-bim  { border-color: #6d28d9; background: #f5f3ff; }
+    .pilar-btn.active-gt   { border-color: #166534; background: #f0fdf4; }
+
+    /* Inner tabs */
+    .inner-tabs { display: flex; gap: 4px; margin-bottom: 16px; }
+    .inner-tab { padding: 7px 16px; border: 1px solid #ddd; border-radius: 6px; background: #fff; font-size: 12px; font-weight: 600; cursor: pointer; color: #666; }
+    .inner-tab.active { background: #0f1623; color: #fff; border-color: #0f1623; }
+
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* Cards grid */
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin-bottom: 20px; }
+    .card { background: #fff; border: 1px solid #e2ddd6; border-radius: 10px; padding: 16px 18px; }
+    .card .card-title { font-size: 13px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .card table { width: 100%; border-collapse: collapse; }
+    .card table tr td { font-size: 12px; padding: 4px 0; border-bottom: 1px solid #f4f3ef; }
+    .card table tr:last-child td { border: none; }
+    .card table tr td:first-child { color: #888; width: 55%; }
+    .card table tr td:last-child { font-weight: 600; text-align: right; }
+
+    /* Tabla PU */
+    .search-bar { display: flex; gap: 10px; margin-bottom: 14px; }
+    .search-bar input, .search-bar select { padding: 9px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; outline: none; background: #fff; }
+    .search-bar input { flex: 1; }
+    .search-bar input:focus { border-color: #0f1623; }
+
+    table.main-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; border: 1px solid #e2ddd6; }
+    table.main-table thead tr { background: #0f1623; }
+    table.main-table thead th { padding: 11px 13px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; text-align: left; }
+    table.main-table tbody tr { border-bottom: 1px solid #f0ede8; }
+    table.main-table tbody tr:last-child { border: none; }
+    table.main-table tbody tr:hover { background: #f8f7f4; }
+    table.main-table tbody td { padding: 11px 13px; font-size: 13px; vertical-align: top; }
+
+    .badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px; font-family: monospace; }
+    .badge-MT { background: #fef3c7; color: #b45309; }
+    .badge-PI { background: #e0f2fe; color: #0369a1; }
+    .badge-ES { background: #ede9fe; color: #6d28d9; }
+    .badge-CO { background: #ccfbf1; color: #0f766e; }
+    .badge-MU { background: #fce7f3; color: #be185d; }
+    .badge-CU { background: #dcfce7; color: #15803d; }
+    .badge-IN { background: #ffedd5; color: #9a3412; }
+    .badge-EX { background: #dbeafe; color: #1e40af; }
+    .badge-riesgo-bajo   { background: #dcfce7; color: #166534; }
+    .badge-riesgo-muy_bajo { background: #dcfce7; color: #166534; }
+    .badge-riesgo-alto   { background: #fee2e2; color: #991b1b; }
+    .badge-riesgo-medio  { background: #fef3c7; color: #92400e; }
+
+    .price { font-weight: 700; color: #166534; }
+    .pendiente { display: inline-block; background: #fee2e2; color: #991b1b; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; text-transform: uppercase; }
+    .incluye { font-size: 11px; color: #666; line-height: 1.5; }
+    #count { font-size: 12px; color: #888; margin-bottom: 10px; }
+
+    /* Tolerancia bars */
+    .tol-bar { display: flex; align-items: center; gap: 8px; }
+    .tol-fill { height: 6px; border-radius: 3px; background: #166534; }
+    .tol-label { font-size: 11px; font-weight: 700; color: #166534; white-space: nowrap; }
+    .tol-fill.alta { background: #ea580c; }
+    .tol-label.alta { color: #ea580c; }
+
+    /* Resumen ground truth */
+    .gt-resumen { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 16px; }
+    .gt-stat { background: #fff; border: 1px solid #e2ddd6; border-radius: 8px; padding: 14px; text-align: center; }
+    .gt-stat .num { font-size: 18px; font-weight: 800; color: #0f1623; }
+    .gt-stat .lbl { font-size: 11px; color: #888; margin-top: 3px; }
+
+    /* JSON viewer */
+    .json-box { background: #0f1623; border-radius: 10px; padding: 24px; overflow: auto; max-height: 600px; position: relative; }
+    .json-box pre { font-family: 'Courier New', monospace; font-size: 12.5px; line-height: 1.7; white-space: pre; }
+    .json-copy { position: sticky; top: 0; float: right; background: #1e2d3d; color: #94a3b8; border: 1px solid #2d3f53; border-radius: 6px; padding: 5px 12px; font-size: 12px; cursor: pointer; margin-bottom: 8px; }
+    .json-copy:hover { background: #2d3f53; color: #fff; }
+    .j-key  { color: #7dd3fc; }
+    .j-str  { color: #86efac; }
+    .j-num  { color: #fbbf24; }
+    .j-bool { color: #f472b6; }
+    .j-null { color: #94a3b8; }
+
+    .indirectos { background: #fff; border: 1px solid #e2ddd6; border-radius: 10px; padding: 18px 20px; margin-top: 16px; display: flex; align-items: center; gap: 20px; }
+    .indirectos .pct { font-size: 36px; font-weight: 800; color: #0f1623; flex-shrink: 0; }
+    .indirectos .desc h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .indirectos .desc p { font-size: 13px; color: #555; line-height: 1.5; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <p class="tag">ATISA · Plataforma Digital de Naves Industriales</p>
+    <h1>Golden Dataset — Visor de Estructuras</h1>
+    <div class="chips">
+      <span>Versión 1.0</span>
+      <span>4 Pilares</span>
+      <span>Gemini 3.0 Preview</span>
+      <span>Datos de ejemplo — pendiente información real</span>
+    </div>
+  </header>
+
+  <div class="alert">
+    <strong>Plantilla en espera de datos reales</strong>
+    Todos los valores marcados como "PENDIENTE" son ejemplos de referencia. Al recibir los insumos del equipo de ingeniería, se reemplazan con los datos reales de ATISA.
+  </div>
+
+  <!-- NAVEGACIÓN DE PILARES -->
+  <div class="pilares-nav">
+    <div class="pilar-btn active-fin" onclick="verPilar('fin')">
+      <div class="icon">💰</div>
+      <span class="nombre">Pilar Financiero</span>
+      <span class="sub">Precios Unitarios</span>
+    </div>
+    <div class="pilar-btn" onclick="verPilar('tec')">
+      <div class="icon">🔬</div>
+      <span class="nombre">Pilar Técnico</span>
+      <span class="sub">Suelos + Volúmenes</span>
+    </div>
+    <div class="pilar-btn" onclick="verPilar('bim')">
+      <div class="icon">🏗️</div>
+      <span class="nombre">Pilar BIM</span>
+      <span class="sub">Diseño + Revit</span>
+    </div>
+    <div class="pilar-btn" onclick="verPilar('gt')">
+      <div class="icon">✅</div>
+      <span class="nombre">Ground Truth</span>
+      <span class="sub">Presupuesto Real</span>
+    </div>
+  </div>
+
+  <!-- ═══════════ PILAR FINANCIERO ═══════════ -->
+  <div class="panel active" id="panel-fin">
+    <div class="inner-tabs">
+      <button class="inner-tab active" onclick="innerTab('fin','tabla')">Vista Tabla</button>
+      <button class="inner-tab" onclick="innerTab('fin','json')">Estructura JSON</button>
+    </div>
+    <div class="panel active" id="fin-tabla">
+      <div class="search-bar">
+        <input type="text" id="fin-search" placeholder="Buscar por clave o descripción..." oninput="filtrarPU()">
+        <select id="fin-cat" onchange="filtrarPU()">
+          <option value="">Todas las categorías</option>
+        </select>
+      </div>
+      <p id="count"></p>
+      <table class="main-table">
+        <thead><tr>
+          <th>Clave</th><th>Descripción</th><th>PU (MXN)</th><th>Unidad</th><th>Incluye</th><th>Vigencia</th>
+        </tr></thead>
+        <tbody id="fin-tbody"></tbody>
+      </table>
+      <div class="indirectos" style="margin-top:16px">
+        <div class="pct" id="ind-pct">—%</div>
+        <div class="desc">
+          <h3>Indirectos sobre subtotal directo</h3>
+          <p id="ind-desc">Cargando...</p>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="fin-json">
+      <div class="json-box"><button class="json-copy" onclick="copiar('fin-raw')">Copiar JSON</button><pre id="fin-raw"></pre></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PILAR TÉCNICO ═══════════ -->
+  <div class="panel" id="panel-tec">
+    <div class="inner-tabs">
+      <button class="inner-tab active" onclick="innerTab('tec','cards')">Vista Cards</button>
+      <button class="inner-tab" onclick="innerTab('tec','json')">Estructura JSON</button>
+    </div>
+    <div class="panel active" id="tec-cards">
+      <p style="font-size:13px;color:#555;margin-bottom:14px;font-weight:600;">Estudios de Mecánica de Suelos</p>
+      <div class="cards" id="tec-suelos"></div>
+      <p style="font-size:13px;color:#555;margin:16px 0 14px;font-weight:600;">Volúmenes de Obra de Referencia</p>
+      <div class="cards" id="tec-vols"></div>
+    </div>
+    <div class="panel" id="tec-json">
+      <div class="json-box"><button class="json-copy" onclick="copiar('tec-raw')">Copiar JSON</button><pre id="tec-raw"></pre></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PILAR BIM ═══════════ -->
+  <div class="panel" id="panel-bim">
+    <div class="inner-tabs">
+      <button class="inner-tab active" onclick="innerTab('bim','cards')">Vista Cards</button>
+      <button class="inner-tab" onclick="innerTab('bim','json')">Estructura JSON</button>
+    </div>
+    <div class="panel active" id="bim-cards">
+      <p style="font-size:13px;color:#555;margin-bottom:14px;font-weight:600;">Criterios de Dimensionamiento</p>
+      <div class="cards" id="bim-criterios"></div>
+      <p style="font-size:13px;color:#555;margin:16px 0 14px;font-weight:600;">Nomenclatura Familias Revit</p>
+      <table class="main-table">
+        <thead><tr><th>Familia Revit</th><th>Elemento</th><th>Clave PU</th><th>Unidad</th></tr></thead>
+        <tbody id="bim-revit"></tbody>
+      </table>
+    </div>
+    <div class="panel" id="bim-json">
+      <div class="json-box"><button class="json-copy" onclick="copiar('bim-raw')">Copiar JSON</button><pre id="bim-raw"></pre></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ GROUND TRUTH ═══════════ -->
+  <div class="panel" id="panel-gt">
+    <div class="inner-tabs">
+      <button class="inner-tab active" onclick="innerTab('gt','tabla')">Vista Tabla</button>
+      <button class="inner-tab" onclick="innerTab('gt','json')">Estructura JSON</button>
+    </div>
+    <div class="panel active" id="gt-tabla">
+      <table class="main-table">
+        <thead><tr><th>Concepto</th><th>Monto (MXN)</th><th>% del Total</th><th>Tolerancia IA</th><th>PU Aplicado</th></tr></thead>
+        <tbody id="gt-tbody"></tbody>
+      </table>
+      <div class="gt-resumen">
+        <div class="gt-stat"><div class="num" id="gt-subtotal">—</div><div class="lbl">Subtotal directo</div></div>
+        <div class="gt-stat"><div class="num" id="gt-total">—</div><div class="lbl">Total con indirectos</div></div>
+        <div class="gt-stat"><div class="num" id="gt-m2">—</div><div class="lbl">Costo por m²</div></div>
+      </div>
+    </div>
+    <div class="panel" id="gt-json">
+      <div class="json-box"><button class="json-copy" onclick="copiar('gt-raw')">Copiar JSON</button><pre id="gt-raw"></pre></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const rawData = {};
+
+  /* ── Colorear JSON ── */
+  function colorJSON(obj) {
+    return JSON.stringify(obj, null, 2)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, m => {
+        if (/^"/.test(m)) return /:$/.test(m) ? `<span class="j-key">${m}</span>` : `<span class="j-str">${m}</span>`;
+        if (/true|false/.test(m)) return `<span class="j-bool">${m}</span>`;
+        if (/null/.test(m))  return `<span class="j-null">${m}</span>`;
+        return `<span class="j-num">${m}</span>`;
+      });
+  }
+
+  function copiar(id) {
+    const text = document.getElementById(id).textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector(`#${id}`).closest('.json-box').querySelector('.json-copy');
+      btn.textContent = '¡Copiado!';
+      setTimeout(() => btn.textContent = 'Copiar JSON', 2000);
+    });
+  }
+
+  /* ── Navegación de pilares ── */
+  const activeCls = { fin:'active-fin', tec:'active-tec', bim:'active-bim', gt:'active-gt' };
+  function verPilar(p) {
+    document.querySelectorAll('.pilar-btn').forEach(b => b.className = 'pilar-btn');
+    document.querySelectorAll('.pilar-btn')[['fin','tec','bim','gt'].indexOf(p)].classList.add(activeCls[p]);
+    document.querySelectorAll('[id^="panel-"]').forEach(el => el.classList.remove('active'));
+    document.getElementById('panel-' + p).classList.add('active');
+  }
+
+  /* ── Inner tabs ── */
+  function innerTab(pilar, tab) {
+    const panel = document.getElementById('panel-' + pilar);
+    panel.querySelectorAll('.inner-tab').forEach((b,i) => b.classList.toggle('active', i === (tab==='tabla'||tab==='cards' ? 0 : 1)));
+    panel.querySelectorAll(':scope > .panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(pilar + '-' + tab).classList.add('active');
+  }
+
+  const MXN = n => '$' + Number(n).toLocaleString('es-MX', {minimumFractionDigits:0});
+
+  /* ══════════ PILAR FINANCIERO ══════════ */
+  let puData = [];
+  fetch('financiero/precios_unitarios.json').then(r=>r.json()).then(d => {
+    rawData.fin = d;
+    document.getElementById('fin-raw').innerHTML = colorJSON(d);
+    puData = d.precios_unitarios;
+    const cats = [...new Set(puData.map(p=>p.clave.split('-')[0]))];
+    const sel = document.getElementById('fin-cat');
+    cats.forEach(c => { const o=document.createElement('option'); o.value=c; o.textContent=c+' — '+d.categorias[c]; sel.appendChild(o); });
+    document.getElementById('ind-pct').textContent = d.indirectos.porcentaje + '%';
+    document.getElementById('ind-desc').textContent = d.indirectos.descripcion;
+    renderPU(puData);
+  });
+
+  function renderPU(items) {
+    const tbody = document.getElementById('fin-tbody');
+    tbody.innerHTML = '';
+    document.getElementById('count').textContent = items.length + ' concepto(s)';
+    items.forEach(p => {
+      const cat = p.clave.split('-')[0];
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><span class="badge badge-${cat}">${p.clave}</span></td>
+        <td><strong>${p.descripcion}</strong>${p.obra_referencia==='PENDIENTE'?'<br><span class="pendiente">pendiente</span>':''}</td>
+        <td class="price">${MXN(p.pu_mxn)}</td>
+        <td style="color:#666;font-size:12px">${p.unidad}</td>
+        <td class="incluye">${p.incluye}</td>
+        <td style="font-size:11px;color:#888">${p.vigencia_desde}<br>→ ${p.vigencia_hasta}</td>`;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function filtrarPU() {
+    const q = document.getElementById('fin-search').value.toLowerCase();
+    const cat = document.getElementById('fin-cat').value;
+    renderPU(puData.filter(p =>
+      (!q || p.clave.toLowerCase().includes(q) || p.descripcion.toLowerCase().includes(q)) &&
+      (!cat || p.clave.startsWith(cat))
+    ));
+  }
+
+  /* ══════════ PILAR TÉCNICO ══════════ */
+  fetch('tecnico/estudios_suelos.json').then(r=>r.json()).then(d => {
+    rawData.tec = d;
+    document.getElementById('tec-raw').innerHTML = colorJSON(d);
+
+    const suelosDiv = document.getElementById('tec-suelos');
+    d.estudios_mecanica_suelos.forEach(e => {
+      suelosDiv.innerHTML += `
+        <div class="card">
+          <div class="card-title">🔬 ${e.id} <span class="badge badge-${e.clasificacion_sucs==='CL'?'PI':e.clasificacion_sucs==='GP'?'ES':'MU'}">${e.clasificacion_sucs}</span>
+            <span class="badge badge-riesgo-${e.riesgo_geotecnico}">${e.riesgo_geotecnico.replace('_',' ')}</span>
+          </div>
+          <p style="font-size:12px;color:#666;margin-bottom:10px">${e.descripcion_suelo}</p>
+          <table><tr><td>Capacidad de carga</td><td>${e.capacidad_carga_admisible_ton_m2} ton/m²</td></tr>
+            <tr><td>Desplante recomendado</td><td>${e.profundidad_desplante_recomendada_m} m</td></tr>
+            <tr><td>Nivel freático</td><td>${e.nivel_freatico_m} m</td></tr>
+            <tr><td>Ángulo de fricción</td><td>${e.angulo_friccion_grados}°</td></tr>
+            <tr><td>Muro contención</td><td>${e.requiere_muro_contencion?'<span class="pendiente">Sí, requerido</span>':'No'}</td></tr>
+            <tr><td>Obra referencia</td><td><span class="pendiente">pendiente</span></td></tr>
+          </table>
+        </div>`;
+    });
+
+    const volsDiv = document.getElementById('tec-vols');
+    d.volumenes_obra_referencia.forEach(v => {
+      volsDiv.innerHTML += `
+        <div class="card">
+          <div class="card-title">📦 ${v.id}</div>
+          <table><tr><td>Área nave</td><td>${v.area_nave_m2.toLocaleString('es-MX')} m²</td></tr>
+            <tr><td>Cota óptima</td><td>${v.cota_optima_m} m</td></tr>
+            <tr><td>Volumen corte</td><td>${v.volumen_corte_m3.toLocaleString('es-MX')} m³</td></tr>
+            <tr><td>Volumen relleno</td><td>${v.volumen_relleno_m3.toLocaleString('es-MX')} m³</td></tr>
+            <tr><td>Distancia acarreo</td><td>${v.distancia_acarreo_km} km</td></tr>
+            <tr><td>Costo total tierras</td><td class="price">${MXN(v.costo_total_tierras_mxn)}</td></tr>
+          </table>
+        </div>`;
+    });
+  });
+
+  /* ══════════ PILAR BIM ══════════ */
+  fetch('bim/criterios_diseno.json').then(r=>r.json()).then(d => {
+    rawData.bim = d;
+    document.getElementById('bim-raw').innerHTML = colorJSON(d);
+
+    const crit = d.criterios_dimensionamiento;
+    const critsDiv = document.getElementById('bim-criterios');
+    critsDiv.innerHTML = `
+      <div class="card"><div class="card-title">📐 Claro Estructural</div>
+        <table><tr><td>Mínimo</td><td>${crit.claro_estructural.minimo_m} m</td></tr>
+          <tr><td>Recomendado</td><td><strong>${crit.claro_estructural.recomendado_m} m</strong></td></tr>
+          <tr><td>Máximo</td><td>${crit.claro_estructural.maximo_m} m</td></tr></table></div>
+      <div class="card"><div class="card-title">📏 Altura Libre Interior</div>
+        <table><tr><td>Mínimo</td><td>${crit.altura_libre_interior.minimo_m} m</td></tr>
+          <tr><td>Logística</td><td><strong>${crit.altura_libre_interior.estandar_logistica_m} m</strong></td></tr>
+          <tr><td>Manufactura</td><td><strong>${crit.altura_libre_interior.estandar_manufactura_m} m</strong></td></tr>
+          <tr><td>Máximo</td><td>${crit.altura_libre_interior.maximo_m} m</td></tr></table></div>
+      <div class="card"><div class="card-title">🚛 Andenes de Carga</div>
+        <table><tr><td>Altura</td><td>${d.andenes_carga.altura_anden_m} m</td></tr>
+          <tr><td>Ancho puerta mín.</td><td>${d.andenes_carga.ancho_minimo_puerta_m} m</td></tr>
+          <tr><td>Puertas / 1,000 m²</td><td>${d.andenes_carga.puertas_por_1000m2}</td></tr>
+          <tr><td>Pendiente rampa máx.</td><td>${d.andenes_carga.rampa_acceso.pendiente_maxima_pct}%</td></tr></table></div>
+      <div class="card"><div class="card-title">🅿️ Patios de Maniobras</div>
+        <table><tr><td>Radio de giro mín.</td><td>${d.patios_maniobras.radio_giro_minimo_m} m</td></tr>
+          <tr><td>Ancho mínimo</td><td>${d.patios_maniobras.ancho_minimo_patio_m} m</td></tr>
+          <tr><td>Pavimento</td><td style="font-size:11px">${d.patios_maniobras.pavimento}</td></tr>
+          <tr><td>Pendiente drenaje</td><td>${d.patios_maniobras.pendiente_drenaje_pct}%</td></tr></table></div>`;
+
+    const revitTbody = document.getElementById('bim-revit');
+    d.nomenclatura_revit.forEach(r => {
+      const cat = r.clave_pu.split('-')[0];
+      revitTbody.innerHTML += `<tr>
+        <td style="font-family:monospace;font-size:12px;color:#555">${r.familia_revit}</td>
+        <td>${r.elemento}</td>
+        <td><span class="badge badge-${cat}">${r.clave_pu}</span></td>
+        <td style="color:#666;font-size:12px">${r.unidad_medicion}</td></tr>`;
+    });
+  });
+
+  /* ══════════ GROUND TRUTH ══════════ */
+  fetch('ground_truth/presupuesto_referencia.json').then(r=>r.json()).then(d => {
+    rawData.gt = d;
+    document.getElementById('gt-raw').innerHTML = colorJSON(d);
+
+    const tbody = document.getElementById('gt-tbody');
+    d.desglose.forEach(c => {
+      const alta = c.tolerancia_desviacion_pct >= 15;
+      const barW = Math.min(c.tolerancia_desviacion_pct * 4, 100);
+      tbody.innerHTML += `<tr>
+        <td><span class="badge badge-${c.clave_categoria}">${c.clave_categoria}</span> ${c.concepto}</td>
+        <td class="price">${MXN(c.monto_mxn)}</td>
+        <td>${c.porcentaje_total}%</td>
+        <td><div class="tol-bar">
+          <div class="tol-fill${alta?' alta':''}" style="width:${barW}px"></div>
+          <span class="tol-label${alta?' alta':''}">±${c.tolerancia_desviacion_pct}%</span>
+        </div></td>
+        <td class="incluye">${MXN(c.pu_aplicado)} / ${c.unidad_referencia}</td></tr>`;
+    });
+
+    const r = d.resumen;
+    document.getElementById('gt-subtotal').textContent = MXN(r.subtotal_directo_mxn);
+    document.getElementById('gt-total').textContent = MXN(r.total_mxn);
+    document.getElementById('gt-m2').textContent = MXN(r.costo_por_m2_mxn) + '/m²';
+  });
+</script>
+</body>
+</html>

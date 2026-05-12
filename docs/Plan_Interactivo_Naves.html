@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plan de Ejecución Interactivo - Naves Industriales</title>
+    <!-- v2: Fase Golden Dataset + Promptfoo agregada 2026-05-07 -->
     <style>
         :root {
             --bg-main: #f4f3ef;
@@ -16,6 +17,8 @@
             --oracle: #A32D2D;
             --front: #854F0B;
             --pm: #534AB7;
+            --gemini: #1a73e8;
+            --data: #6d28d9;
         }
 
         * {
@@ -106,12 +109,14 @@
 
         .filter-btn:hover { background: #f0f0f0; }
 
-        .filter-btn.active[data-role="all"] { background: #1a1a1a; color: white; border-color: #1a1a1a; }
+        .filter-btn.active[data-role="all"]    { background: #1a1a1a; color: white; border-color: #1a1a1a; }
         .filter-btn.active[data-role="python"] { background: #eef4f9; color: var(--python); border-color: var(--python); }
-        .filter-btn.active[data-role="bim"] { background: #e1f5ee; color: var(--bim); border-color: var(--bim); }
+        .filter-btn.active[data-role="bim"]   { background: #e1f5ee; color: var(--bim); border-color: var(--bim); }
         .filter-btn.active[data-role="oracle"] { background: #fcebeb; color: var(--oracle); border-color: var(--oracle); }
         .filter-btn.active[data-role="front"] { background: #faeeda; color: var(--front); border-color: var(--front); }
-        .filter-btn.active[data-role="pm"] { background: #eeedfe; color: var(--pm); border-color: var(--pm); }
+        .filter-btn.active[data-role="pm"]    { background: #eeedfe; color: var(--pm); border-color: var(--pm); }
+        .filter-btn.active[data-role="gemini"]{ background: #e8f0fe; color: var(--gemini); border-color: var(--gemini); }
+        .filter-btn.active[data-role="data"]  { background: #ede9fe; color: var(--data); border-color: var(--data); }
 
         /* Task Grid */
         .task-grid {
@@ -175,12 +180,88 @@
         .badge.oracle { background: #fcebeb; color: var(--oracle); border: 1px solid var(--oracle); }
         .badge.front { background: #faeeda; color: var(--front); border: 1px solid var(--front); }
         .badge.pm { background: #eeedfe; color: var(--pm); border: 1px solid var(--pm); }
+        .badge.gemini { background: #e8f0fe; color: var(--gemini); border: 1px solid var(--gemini); }
+        .badge.data { background: #ede9fe; color: var(--data); border: 1px solid var(--data); }
 
         /* Status Badges */
         .badge.status-done { background: #dcfce7; color: #166534; }
         .badge.status-prog { background: #fef08a; color: #854d0e; }
         .badge.status-todo { background: #f1f5f9; color: #475569; }
         .badge.status-audit { background: #e0e7ff; color: #1d4ed8; }
+        .badge.status-blocker { background: #fee2e2; color: #991b1b; }
+
+        /* Phase separator */
+        .phase-header {
+            margin: 32px 0 16px 0;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+        .phase-header.mvp { background: #dcfce7; color: #166534; border-left: 4px solid #16a34a; }
+        .phase-header.golden { background: #e8f0fe; color: #1a56db; border-left: 4px solid #1a73e8; }
+
+        /* Timeline strip */
+        .timeline-strip {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+        }
+        .timeline-strip h3 { font-size: 14px; font-weight: 700; margin-bottom: 14px; color: #1a1830; }
+        .timeline-row {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+        .timeline-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            width: 180px;
+            flex-shrink: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .timeline-bar {
+            height: 18px;
+            border-radius: 4px;
+            font-size: 10px;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            white-space: nowrap;
+        }
+        .bar-blocker { background: #dc2626; }
+        .bar-data    { background: #7c3aed; }
+        .bar-tech    { background: #1a73e8; }
+        .bar-eval    { background: #0F6E56; }
+        .bar-iter    { background: #854F0B; }
+        .week-headers {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 6px;
+            padding-left: 186px;
+        }
+        .week-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #888;
+            width: 60px;
+            text-align: center;
+        }
+        .critical-path {
+            margin-top: 12px;
+            font-size: 12px;
+            color: #dc2626;
+            font-weight: 600;
+        }
 
         .hidden { display: none; }
     </style>
@@ -220,10 +301,318 @@
         <button class="filter-btn" data-role="front">Frontend Developer</button>
         <button class="filter-btn" data-role="oracle">Consultor Oracle OIC</button>
         <button class="filter-btn" data-role="pm">Project Manager</button>
+        <button class="filter-btn" data-role="gemini">Gemini / Promptfoo</button>
+        <button class="filter-btn" data-role="data">Data Engineer</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- FASE GOLDEN DATASET + PROMPTFOO                           -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div class="phase-header golden">Fase 2 — Golden Dataset & Evaluación Continua con Gemini + Promptfoo &nbsp;·&nbsp; 6 semanas · Inicio: Mayo 2026</div>
+
+    <!-- GANTT -->
+    <div class="timeline-strip">
+        <h3>Diagrama de Gantt — Ruta Crítica</h3>
+        <div class="week-headers">
+            <div class="week-label">Sem 1</div>
+            <div class="week-label">Sem 2</div>
+            <div class="week-label">Sem 3</div>
+            <div class="week-label">Sem 4</div>
+            <div class="week-label">Sem 5</div>
+            <div class="week-label">Sem 6</div>
+        </div>
+
+        <div class="timeline-row">
+            <div class="timeline-label" title="A — Recolección de datos">A · Recolección de datos</div>
+            <div class="timeline-bar bar-blocker" style="width:126px">BLOQUEANTE</div>
+        </div>
+        <div class="timeline-row">
+            <div class="timeline-label" title="B — Normalización y auditoría">B · Normalización JSON</div>
+            <div class="timeline-bar" style="width:60px;background:#eee;color:#aaa">espera</div>
+            <div class="timeline-bar bar-data" style="width:126px">Data Engineer</div>
+        </div>
+        <div class="timeline-row">
+            <div class="timeline-label" title="C — Setup técnico Promptfoo">C · Setup Promptfoo + Vertex AI</div>
+            <div class="timeline-bar" style="width:126px;background:#eee;color:#aaa">puede iniciar en paralelo</div>
+            <div class="timeline-bar bar-tech" style="width:66px">Técnico</div>
+        </div>
+        <div class="timeline-row">
+            <div class="timeline-label" title="D — Diseño del system prompt">D · System Prompt (4 pilares)</div>
+            <div class="timeline-bar" style="width:192px;background:#eee;color:#aaa">espera datos + setup</div>
+            <div class="timeline-bar bar-data" style="width:66px">Prompting</div>
+        </div>
+        <div class="timeline-row">
+            <div class="timeline-label" title="E — Primera evaluación">E · Primera evaluación LLM</div>
+            <div class="timeline-bar" style="width:258px;background:#eee;color:#aaa">depende de D</div>
+            <div class="timeline-bar bar-eval" style="width:66px">Eval</div>
+        </div>
+        <div class="timeline-row">
+            <div class="timeline-label" title="F — Iteración y benchmark final">F · Iteración + Benchmark</div>
+            <div class="timeline-bar" style="width:324px;background:#eee;color:#aaa">depende de E</div>
+            <div class="timeline-bar bar-iter" style="width:66px">Cierre</div>
+        </div>
+
+        <div class="critical-path">⚠ Ruta crítica: la Semana 1 es completamente dependiente de la respuesta del equipo con los insumos (PU, suelos, QTO). Todo lo demás se desbloquea a partir de ahí.</div>
     </div>
 
     <div class="task-grid" id="task-grid">
-        
+
+        <!-- ── BLOQUE A ── -->
+        <div class="phase-header golden" style="margin-top:8px">Bloque A — Recolección y Validación de Insumos &nbsp;·&nbsp; Semana 1–2 &nbsp;·&nbsp; BLOQUEANTE</div>
+
+        <div class="task-card" data-roles="pm data">
+            <div class="task-header">
+                <div class="task-title">A1 · Recepción y acuse de insumos del equipo</div>
+                <div class="badge status-blocker">Bloqueante</div>
+            </div>
+            <div class="task-desc">
+                Recibir y acusar los 4 pilares solicitados: <br>
+                <strong>Pilar 1 (Costos):</strong> Listado histórico de PU (últimos 2 años) + catálogo de conceptos con descripciones técnicas.<br>
+                <strong>Pilar 2 (Ingeniería):</strong> 3–5 estudios de mecánica de suelos + reportes de volúmenes de corte/relleno validados.<br>
+                <strong>Pilar 3 (BIM):</strong> Manual de criterios de diseño + nomenclatura estándar de familias Revit.<br>
+                <strong>Pilar 4 (Ground Truth):</strong> Presupuesto final de nave construida + archivo QTO original.<br>
+                <em>Entregable:</em> Carpeta organizada con todos los archivos recibidos y checklist de completitud.
+            </div>
+            <div class="badges">
+                <span class="badge pm">Project Manager</span>
+                <span class="badge data">Data Engineer</span>
+            </div>
+        </div>
+
+        <div class="task-card" data-roles="data pm">
+            <div class="task-header">
+                <div class="task-title">A2 · Auditoría de calidad y detección de gaps</div>
+                <div class="badge status-blocker">Bloqueante</div>
+            </div>
+            <div class="task-desc">
+                Revisar cada insumo contra criterios mínimos de calidad: ¿están los PU en MXN vigentes? ¿Los estudios de suelos tienen clasificación SUCS? ¿El QTO del ground truth tiene desglose por concepto?<br>
+                Detectar gaps y emitir una segunda solicitud acotada al equipo.<br>
+                <em>Entregable:</em> Matriz de completitud (verde / amarillo / rojo por pilar).
+            </div>
+            <div class="badges">
+                <span class="badge data">Data Engineer</span>
+                <span class="badge pm">Project Manager</span>
+            </div>
+        </div>
+
+        <!-- ── BLOQUE B ── -->
+        <div class="phase-header golden" style="margin-top:8px">Bloque B — Normalización del Golden Dataset &nbsp;·&nbsp; Semana 2–3</div>
+
+        <div class="task-card" data-roles="data python">
+            <div class="task-header">
+                <div class="task-title">B1 · Estructurar Pilar Financiero como JSON</div>
+                <div class="badge status-todo">Por hacer</div>
+            </div>
+            <div class="task-desc">
+                Convertir el catálogo de PU (Excel/PDF) a un JSON estructurado con esquema:<br>
+                <code>{ "clave": "MT-001", "descripcion": "...", "unidad": "m³", "pu_mxn": 135, "vigencia": "2025-Q4" }</code><br>
+                Generar script Python <code>normalize_costs.py</code> para procesamiento automático de futuras actualizaciones.
+            </div>
+            <div class="badges">
+                <span class="badge data">Data Engineer</span>
+                <span class="badge python">Desarrollador Python</span>
+            </div>
+        </div>
+
+        <div class="task-card" data-roles="data bim">
+            <div class="task-header">
+                <div class="task-title">B2 · Estructurar Pilar Técnico (suelos + volúmenes)</div>
+                <div class="badge status-todo">Por hacer</div>
+            </div>
+            <div class="task-desc">
+                Extraer parámetros clave de los estudios de mecánica de suelos: capacidad de carga, nivel freático, clasificación SUCS, profundidad de desplante.<br>
+                Normalizar los reportes de corte/relleno al mismo esquema que usa <code>terrain_results.json</code>.<br>
+                <em>Entregable:</em> <code>golden_dataset/pilar_tecnico.json</code>
+            </div>
+            <div class="badges">
+                <span class="badge data">Data Engineer</span>
+                <span class="badge bim">BIM Manager</span>
+            </div>
+        </div>
+
+        <div class="task-card" data-roles="bim data">
+            <div class="task-header">
+                <div class="task-title">B3 · Estructurar Pilar BIM (criterios diseño + Revit)</div>
+                <div class="badge status-todo">Por hacer</div>
+            </div>
+            <div class="task-desc">
+                Digitalizar el manual de criterios de diseño: distancias mínimas, andenes, patios de maniobras, claro estructural estándar.<br>
+                Mapear la nomenclatura de familias Revit a un diccionario que el LLM pueda consultar para identificar elementos en el QTO.<br>
+                <em>Entregable:</em> <code>golden_dataset/pilar_bim.json</code> + <code>revit_nomenclature.json</code>
+            </div>
+            <div class="badges">
+                <span class="badge bim">BIM Manager</span>
+                <span class="badge data">Data Engineer</span>
+            </div>
+        </div>
+
+        <div class="task-card" data-roles="data python">
+            <div class="task-header">
+                <div class="task-title">B4 · Preparar Ground Truth como assertions de Promptfoo</div>
+                <div class="badge status-todo">Por hacer</div>
+            </div>
+            <div class="task-desc">
+                Tomar el presupuesto final de la nave construida y estructurarlo como casos de prueba de Promptfoo:<br>
+                <code>assert: type: javascript → |output.total - groundTruth| / groundTruth &lt; 0.15</code><br>
+                Crear assertions por concepto (tierras, losa, estructura, indirectos) con tolerancias diferenciadas.<br>
+                <em>Entregable:</em> <code>promptfoo/tests/ground_truth.yaml</code>
+            </div>
+            <div class="badges">
+                <span class="badge data">Data Engineer</span>
+                <span class="badge python">Desarrollador Python</span>
+            </div>
+        </div>
+
+        <!-- ── BLOQUE C ── -->
+        <div class="phase-header golden" style="margin-top:8px">Bloque C — Setup Técnico Promptfoo + Vertex AI &nbsp;·&nbsp; Semana 2–3 (paralelo a B)</div>
+
+        <div class="task-card" data-roles="python gemini">
+            <div class="task-header">
+                <div class="task-title">C1 · Instalar y configurar Promptfoo en el proyecto</div>
+                <div class="badge status-todo">Por hacer</div>
+            </div>
+            <div class="task-desc">
+                Instalar <code>promptfoo</code> vía npm en la carpeta <code>web/</code> o como herramienta global.<br>
+                Crear estructura de directorios: <code>promptfoo/prompts/</code>, <code>promptfoo/tests/</code>, <code>promptfoo/config/</code>.<br>
+                Verificar versión y compatibilidad con provider Vertex AI.
+            </div>
+            <div class="badges">
+                <span class="badge python">Desarrollador Python</span>
+                <span class="badge gemini">Gemini / Promptfoo</span>
+            </div>
+        </div>
+
+        <div class="task-card" data-roles="python gemini">
+            <div class="task-header">
+                <div class="task-title">C2 · Conectar Vertex AI (Gemini 1.5 Pro) como provider</div>
+                <div class="badge status-todo">Por hacer</div>
+            </div>
+            <div class="task-desc">
+                Configurar <code>promptfooconfig.yaml</code> con el provider <code>vertex:gemini-1.5-pro</code>.<br>
+                Configurar autenticación con API Key disponible (variables de entorno <code>.env</code>: <code>GOOGLE_API_KEY</code>, <code>VERTEX_PROJECT</code>).<br>
+                Ejecutar test de conexión básico para validar que el proveedor responde.
+            </div>
+            <div class="badges">
+                <span class="badge gemini">Gemini / Promptfoo</span>
+                <span class="badge python">Desarrollador Python</span>
+            </div>
+        </div>
+
+        <!-- ── BLOQUE D ── -->
+        <div class="phase-header golden" style="margin-top:8px">Bloque D — Diseño del System Prompt (4 Pilares) &nbsp;·&nbsp; Semana 3–4</div>
+
+        <div class="task-card" data-roles="python gemini data">
+            <div class="task-header">
+                <div class="task-title">D1 · Escribir system prompt base con los 4 pilares</div>
+                <div class="badge status-todo">Por hacer</div>
+            </div>
+            <div class="task-desc">
+                Redactar <code>prompts/system_golden.txt</code> que inyecte como contexto:<br>
+                • Sección COSTOS: PU normalizados (JSON inline o via RAG)<br>
+                • Sección INGENIERÍA: parámetros de suelo y volúmenes de referencia<br>
+                • Sección BIM: criterios de diseño y nomenclatura Revit<br>
+                • Sección GROUND TRUTH: instrucción de precisión esperada (&lt;15% por concepto).<br>
+                Mantener el prompt bajo 8,000 tokens para optimizar latencia y costo en Gemini.
+            </div>
+            <div class="badges">
+                <span class="badge gemini">Gemini / Promptfoo</span>
+                <span class="badge data">Data Engineer</span>
+                <span class="badge python">Desarrollador Python</span>
+            </div>
+        </div>
+
+        <div class="task-card" data-roles="python gemini">
+            <div class="task-header">
+                <div class="task-title">D2 · Diseñar prompt de usuario (input del proyecto)</div>
+                <div class="badge status-todo">Por hacer</div>
+            </div>
+            <div class="task-desc">
+                Crear <code>prompts/user_request.txt</code> con template de variables que Promptfoo inyecta dinámicamente:<br>
+                <code>{"area_m2": {{area}}, "cota_optima": {{cota}}, "volumen_corte_m3": {{corte}}, "region": {{region}}}</code><br>
+                Incluir instrucción de formato de respuesta: JSON con desglose por concepto + total + costo/m².
+            </div>
+            <div class="badges">
+                <span class="badge gemini">Gemini / Promptfoo</span>
+                <span class="badge python">Desarrollador Python</span>
+            </div>
+        </div>
+
+        <!-- ── BLOQUE E ── -->
+        <div class="phase-header golden" style="margin-top:8px">Bloque E — Primera Evaluación LLM &nbsp;·&nbsp; Semana 4–5</div>
+
+        <div class="task-card" data-roles="gemini python">
+            <div class="task-header">
+                <div class="task-title">E1 · Correr primera ronda de tests con Promptfoo</div>
+                <div class="badge status-todo">Por hacer</div>
+            </div>
+            <div class="task-desc">
+                Ejecutar <code>promptfoo eval</code> con los casos del ground truth.<br>
+                Medir accuracy por concepto: movimiento de tierras, piso industrial, estructura, columnas, muros, indirectos.<br>
+                Exportar reporte HTML de Promptfoo para revisión del equipo.
+            </div>
+            <div class="badges">
+                <span class="badge gemini">Gemini / Promptfoo</span>
+                <span class="badge python">Desarrollador Python</span>
+            </div>
+        </div>
+
+        <div class="task-card" data-roles="gemini python data">
+            <div class="task-header">
+                <div class="task-title">E2 · Diagnóstico de desviaciones &gt; 15%</div>
+                <div class="badge status-todo">Por hacer</div>
+            </div>
+            <div class="task-desc">
+                Identificar qué conceptos tiene el LLM con mayor error respecto al ground truth.<br>
+                Determinar causa raíz: ¿falta contexto en el pilar? ¿PU desactualizados? ¿Instrucción ambigua en el prompt?<br>
+                <em>Entregable:</em> Lista priorizada de ajustes al system prompt.
+            </div>
+            <div class="badges">
+                <span class="badge gemini">Gemini / Promptfoo</span>
+                <span class="badge data">Data Engineer</span>
+                <span class="badge python">Desarrollador Python</span>
+            </div>
+        </div>
+
+        <!-- ── BLOQUE F ── -->
+        <div class="phase-header golden" style="margin-top:8px">Bloque F — Iteración y Benchmark Final &nbsp;·&nbsp; Semana 5–6</div>
+
+        <div class="task-card" data-roles="gemini python">
+            <div class="task-header">
+                <div class="task-title">F1 · Ciclos de iteración del prompt (máx. 3 rondas)</div>
+                <div class="badge status-todo">Por hacer</div>
+            </div>
+            <div class="task-desc">
+                Ajustar el system prompt según el diagnóstico de E2. Ejecutar <code>promptfoo eval</code> por cada iteración.<br>
+                Promptfoo almacena historial de versiones para comparar mejora entre rondas.<br>
+                Criterio de parada: accuracy global ≥ 85% (desviación ≤ 15% en todos los conceptos clave).
+            </div>
+            <div class="badges">
+                <span class="badge gemini">Gemini / Promptfoo</span>
+                <span class="badge python">Desarrollador Python</span>
+            </div>
+        </div>
+
+        <div class="task-card" data-roles="pm gemini data bim">
+            <div class="task-header">
+                <div class="task-title">F2 · Benchmark final: IA vs cálculo humano</div>
+                <div class="badge status-todo">Por hacer</div>
+            </div>
+            <div class="task-desc">
+                Ejecutar el prompt final contra el caso completo del ground truth.<br>
+                Presentar tabla comparativa: concepto por concepto, % de desviación, tiempo de generación.<br>
+                Definir criterios de aceptación formales para integrar el LLM al flujo productivo en la Fase 3 (Oracle OIC).
+            </div>
+            <div class="badges">
+                <span class="badge pm">Project Manager</span>
+                <span class="badge gemini">Gemini / Promptfoo</span>
+                <span class="badge data">Data Engineer</span>
+                <span class="badge bim">BIM Manager</span>
+            </div>
+        </div>
+
+        <!-- SEPARADOR FASES ANTERIORES -->
+        <div class="phase-header mvp" style="margin-top:24px">Fase 1 — MVP Completado &nbsp;·&nbsp; Hardening pendiente</div>
+
         <!-- TAREAS NUEVAS DE HARDENING -->
         <div class="task-card" data-roles="python front">
             <div class="task-header">
