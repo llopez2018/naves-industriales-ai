@@ -25,6 +25,16 @@ const execFileAsync = promisify(execFile);
 const CORPORATE = "NTTDATA";
 const SUITE_VERSION = "1.0.0";
 
+// ASCII banner rendered in Copilot Chat (monospace markdown code block)
+const NTTDATA_BANNER = `\`\`\`
+   ╭──────╮   ███╗  ██╗ ████████╗████████╗  ██████╗  █████╗ ████████╗ █████╗
+  ╱ ╭────╮ ╲  ████╗ ██║ ╚══██╔══╝╚══██╔══╝  ██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗
+ │  │  ◉  │ │ ██╔████╗██║    ██║      ██║   ██║  ██║███████║   ██║   ███████║
+ │  ╰────╯  │ ██║╚═██╗██║    ██║      ██║   ██║  ██║██╔══██║   ██║   ██╔══██║
+  ╲         ╱  ██║  ╚████║    ██║      ██║   ██████╔╝██║  ██║   ██║   ██║  ██║
+   ╰──────╯   ╚═╝   ╚═══╝    ╚═╝      ╚═╝   ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝
+\`\`\``;
+
 const VALID_COMMANDS = [
     "analyze", "entities", "services", "flows",
     "deps", "docs", "scripts", "endpoints", "entries",
@@ -67,6 +77,9 @@ export class NTTDATAParticipant {
         token: vscode.CancellationToken,
     ): Promise<void> {
         const prompt = request.prompt.trim();
+
+        // Always render the NTT DATA banner at the top of every response
+        stream.markdown(`${NTTDATA_BANNER}\n`);
 
         if (!prompt || prompt === "help") {
             stream.markdown(this.helpMessage());
@@ -240,17 +253,24 @@ export class NTTDATAParticipant {
         ).join("\n");
 
         return [
-            `## ${CORPORATE} IBM TWX Reverse Engineering Suite v${SUITE_VERSION}`,
+            `> **IBM TWX Reverse Engineering Suite** — v${SUITE_VERSION} | Corporate: **NTT DATA**`,
             "",
-            "### Uso",
+            "---",
+            "",
+            "### Sintaxis",
             "```",
             "@nttdata <versión> <comando> <ruta/al/archivo.twx>",
             "",
             "Ejemplos:",
-            "  @nttdata v1.0 analyze  mi_app.twx",
-            "  @nttdata v1.0 services mi_app.twx",
-            "  @nttdata v1.0 flows    mi_app.twx",
-            "  @nttdata v1.0 docs     mi_app.twx",
+            "  @nttdata v1.0 analyze   mi_app.twx",
+            "  @nttdata v1.0 services  mi_app.twx",
+            "  @nttdata v1.0 flows     mi_app.twx",
+            "  @nttdata v1.0 entities  mi_app.twx",
+            "  @nttdata v1.0 docs      mi_app.twx",
+            "  @nttdata v1.0 scripts   mi_app.twx",
+            "  @nttdata v1.0 endpoints mi_app.twx",
+            "  @nttdata v1.0 deps      mi_app.twx",
+            "  @nttdata v1.0 entries   mi_app.twx",
             "```",
             "",
             "### Comandos disponibles",
@@ -258,6 +278,9 @@ export class NTTDATAParticipant {
             "| Comando | Descripción |",
             "|:--------|:------------|",
             cmds,
+            "",
+            "---",
+            "_NTT DATA · IBM Integration Designer TWX Reverse Engineering_",
         ].join("\n");
     }
 }

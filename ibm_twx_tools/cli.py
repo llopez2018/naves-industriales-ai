@@ -28,13 +28,7 @@ from .entity_extractor import EntityExtractor
 from .service_extractor import ServiceExtractor
 from .flow_mapper import FlowMapper
 from .doc_generator import DocGenerator
-
-BANNER = f"""
-╔══════════════════════════════════════════════════════╗
-║  {__corporate__} — {__product__:<33}║
-║  Version: {__version__:<43}║
-╚══════════════════════════════════════════════════════╝
-"""
+from .banner import print_banner
 
 
 def cmd_analyze(args, package):
@@ -122,7 +116,7 @@ COMMANDS = {
 
 
 def main():
-    print(BANNER, file=sys.stderr)
+    print_banner(version=__version__)
 
     parser = argparse.ArgumentParser(
         prog="ibm_twx_tools",
